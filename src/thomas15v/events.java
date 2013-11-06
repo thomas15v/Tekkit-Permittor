@@ -1,5 +1,7 @@
 package thomas15v;
 
+import ic2.advancedmachines.common.TileEntityCentrifugeExtractor;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +25,8 @@ public class events implements Listener {
 	FileConfiguration config;
 	public int loseexp = 5;
 	public int[] noplaceblock = {48,56,16,15,21,73,49,14};
-	
 	public boolean Modblockplaceenabled = true;
-	
 	Map<Player,Location> playeruseprojecttable = new HashMap<Player,Location >();
-	
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
@@ -66,10 +65,14 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerInteractEvent(PlayerInteractEvent event) {
-		int data = event.getClickedBlock().getData();
+		//int data = event.getClickedBlock().getData();
 		int id = event.getClickedBlock().getTypeId();
 		
-		if (id == 751 && data == 3){
+		if (event.getClickedBlock() instanceof TileEntityCentrifugeExtractor){
+			Bukkit.getLogger().info("HOERAAA");
+		}
+		
+		if (id == 751 /*&& data == 3 */){
 			Location location = event.getClickedBlock().getLocation();
 			Player player = event.getPlayer();
 			if (playeruseprojecttable.containsValue(location) && !playeruseprojecttable.containsKey(player)){
@@ -98,8 +101,11 @@ public class events implements Listener {
 	public void PlayerQuitEvent(PlayerKickEvent event){
 		if (playeruseprojecttable.containsKey(event.getPlayer())) playeruseprojecttable.remove(event.getPlayer());
 	}
+	
+	
+	
 
+}	
 	
 	
-	
-}
+
