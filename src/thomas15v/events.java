@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -40,8 +40,8 @@ public class events implements Listener {
 	public boolean blockillegalexprewardenabled = true;
 	public String[] illegalexprewardenabledblocks = {"188","250"};
 	
-	Map<Player,Location> OnePlayerBlocksUsed = new HashMap<Player,Location >();
-	Map<String,String> playerusingblock = new HashMap<String,String>();
+	Map<Player,Location> OnePlayerBlocksUsed = new HashMap<Player,Location>();
+	Map<String,BlockPlocation> playerusingblock = new HashMap<String,BlockPlocation>();
 	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -85,10 +85,11 @@ public class events implements Listener {
 			//EXPBLOCKER
 			if (functions.InArray(illegalexprewardenabledblocks, (id +":" + data ) ) && blockillegalexprewardenabled){
 				Player player = event.getPlayer();
-				playerusingblock.put(player.getName(), (id +":" + data ));				
+				BlockPlocation blockPlocation = new BlockPlocation(id, data, player.getLocation());
+				playerusingblock.put(player.getName(), blockPlocation);				
 			}
 			
-			Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
+			//Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
 			if (event.getClickedBlock().getTypeId() == 188 && event.getClickedBlock().getData() == 2 && event.getPlayer().getItemInHand().getTypeId() == 21257){
 				event.getClickedBlock().setTypeId(2051);
 				ItemStack item = new ItemStack(188 , 1, (short) 0 ,(byte) 2);
@@ -105,7 +106,7 @@ public class events implements Listener {
 		Player player = event.getPlayer();
 		if (maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
 				
-			String block = playerusingblock.get(player.getName());
+			String block = playerusingblock.get(player.getName()).getblock();
 			if (functions.InArray(illegalexprewardenabledblocks, block )){
 				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
 				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.equalsIgnoreCase("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
@@ -128,15 +129,19 @@ public class events implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-    public void PlayerMoveEvent(EnchantItemEvent event) {
-		Bukkit.getLogger().info("WORKING");
-		
+    public void InventoryClickEvent(InventoryClickEvent event) {
+		Bukkit.getLogger().info(event.getInventory().getName());
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerMoveEvent(PlayerMoveEvent event) {
-		removeplayeroutlist(event.getPlayer());
+		Player player = event.getPlayer();
 		
+		if (playerusingblock.containsKey(player.getName()) && playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 5)
+			Bukkit.getLogger().info(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) + " LOCATION FROM FURNACE");
+			playerusingblock.remove(player.getName());
+		
+		if (OnePlayerBlocksUsed.containsKey(player)) OnePlayerBlocksUsed.remove(player);
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
