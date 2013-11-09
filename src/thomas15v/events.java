@@ -1,55 +1,52 @@
 package thomas15v;
 
-import ic2.advancedmachines.common.TileEntityCentrifugeExtractor;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+
 
 public class events implements Listener {
 	
 	
 	FileConfiguration config;
-	public int loseexp = 5;
+	
 	public int[] noplaceblock = {48,56,16,15,21,73,49,14};
 	public boolean Modblockplaceenabled = true;
-	Map<Player,Location> playeruseprojecttable = new HashMap<Player,Location >();
 	
-	@EventHandler(priority = EventPriority.MONITOR)
+	public boolean Blockmoreplayerusingblockenabled = true;
+	public String[] onePlayerBlocks = {"751:3"};
+	
+	public int maxexp = 10;
+	public boolean blockillegalexprewardenabled = true;
+	public String[] illegalexprewardenabledblocks = {"188","250"};
+	
+	Map<Player,Location> OnePlayerBlocksUsed = new HashMap<Player,Location >();
+	Map<String,String> playerusingblock = new HashMap<String,String>();
+	
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
-
-		//Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
-		
 		int block = event.getBlock().getTypeId();
-		/*
-		if (block == 237){
-			int exp = event.getPlayer().getLevel();
-			if (exp >= loseexp){
-				event.getPlayer().setLevel(exp - loseexp);
-				event.setCancelled(false);
-				event.getPlayer().sendMessage("Your nuke is ready and filled with the necessary Magic");
-				
-			}
-			else{
-				event.getPlayer().sendMessage("Your magic level is to low ... . We need to see at least " + loseexp + "levels!!!");
-				event.setCancelled(true);
-			}
-		}
-		*/
-		
 		
 		if (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
@@ -58,54 +55,107 @@ public class events implements Listener {
 				Bukkit.getLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);
 			}
-		}
-		
+		}		
 		
 	}	
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerInteractEvent(PlayerInteractEvent event) {
-		//int data = event.getClickedBlock().getData();
-		int id = event.getClickedBlock().getTypeId();
+		removeplayeroutlist(event.getPlayer());
 		
-		if (event.getClickedBlock() instanceof TileEntityCentrifugeExtractor){
-			Bukkit.getLogger().info("HOERAAA");
-		}
-		
-		if (id == 751 /*&& data == 3 */){
-			Location location = event.getClickedBlock().getLocation();
-			Player player = event.getPlayer();
-			if (playeruseprojecttable.containsValue(location) && !playeruseprojecttable.containsKey(player)){
-				player.sendMessage(ChatColor.RED + "This Block is already in use");
-				event.setCancelled(true);
-			}else{
-				playeruseprojecttable.put(player, location);
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK){
+			
+			Block block = event.getClickedBlock();
+			int data = block.getData();
+			int id = block.getTypeId();
+					
+			//multiple block use blocking
+			if (functions.InArray(onePlayerBlocks,(id + ":" + data)) && Blockmoreplayerusingblockenabled ){
+				Location location = event.getClickedBlock().getLocation();
+				Player player = event.getPlayer();
+				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player)){
+					player.sendMessage(ChatColor.RED + "This Block is already in use");
+					event.setCancelled(true);
+				}else{
+					OnePlayerBlocksUsed.put(player, location);
+				}		
 			}
 			
+			//EXPBLOCKER
+			if (functions.InArray(illegalexprewardenabledblocks, (id +":" + data ) ) && blockillegalexprewardenabled){
+				Player player = event.getPlayer();
+				playerusingblock.put(player.getName(), (id +":" + data ));				
+			}
 			
-			
+			Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
+			if (event.getClickedBlock().getTypeId() == 188 && event.getClickedBlock().getData() == 2 && event.getPlayer().getItemInHand().getTypeId() == 21257){
+				event.getClickedBlock().setTypeId(2051);
+				ItemStack item = new ItemStack(188 , 1, (short) 0 ,(byte) 2);
+				event.getPlayer().getInventory().addItem(item);
+				event.setCancelled(true);
+			}
 		}
+    }
+	
+	
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void InventoryOpenEvent (PlayerExpChangeEvent event){
+		Player player = event.getPlayer();
+		if (maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
+				
+			String block = playerusingblock.get(player.getName());
+			if (functions.InArray(illegalexprewardenabledblocks, block )){
+				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
+				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.equalsIgnoreCase("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
+				
+				event.setAmount(0);
+			}
+		
+		}
+		
+		
+		
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	void BlockBreakEvent(BlockBreakEvent event){
+		if (event.getBlock().getTypeId() == 188 && event.getBlock().getData() == 2){
+			event.getBlock().setTypeId(2051);
+			event.setCancelled(true);
+		}
+		
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void PlayerMoveEvent(EnchantItemEvent event) {
+		Bukkit.getLogger().info("WORKING");
+		
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerMoveEvent(PlayerMoveEvent event) {
-		if (playeruseprojecttable.containsKey(event.getPlayer())) playeruseprojecttable.remove(event.getPlayer());
+		removeplayeroutlist(event.getPlayer());
+		
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void PlayerQuitEvent(PlayerQuitEvent event){
-		if (playeruseprojecttable.containsKey(event.getPlayer())) playeruseprojecttable.remove(event.getPlayer());
+		removeplayeroutlist(event.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void PlayerQuitEvent(PlayerKickEvent event){
-		if (playeruseprojecttable.containsKey(event.getPlayer())) playeruseprojecttable.remove(event.getPlayer());
+	public void PlayerKickEvent(PlayerKickEvent event){
+		removeplayeroutlist(event.getPlayer());
 	}
 	
 	
-	
-
+	void removeplayeroutlist(Player player){
+		if (OnePlayerBlocksUsed.containsKey(player)) OnePlayerBlocksUsed.remove(player);
+		if (playerusingblock.containsKey(player.getName())) playerusingblock.remove(player.getName());
+	}
 }	
+
 	
 	
 

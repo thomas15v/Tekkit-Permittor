@@ -1,11 +1,23 @@
 package thomas15v;
 
 
+
 public class functions {
 
 	static boolean InArray(int[] array, int value){
 		for (int i : array) {
 			if (i == value) return true;
+		}
+		return false;
+	}
+	
+	static boolean InArray(String[] array, String value){
+		String bettervalue = value;
+		for (String i : array) {
+			
+			if (!i.contains(":"))bettervalue = value.split(":")[0];
+			else bettervalue = value;
+			if (i.trim().equalsIgnoreCase(bettervalue)) return true;
 		}
 		return false;
 	}
