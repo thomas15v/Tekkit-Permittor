@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
@@ -22,7 +21,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 
 
 public class events implements Listener {
@@ -40,8 +38,8 @@ public class events implements Listener {
 	public boolean blockillegalexprewardenabled = true;
 	public String[] illegalexprewardenabledblocks = {"188","250"};
 	
-	Map<Player,Location> OnePlayerBlocksUsed = new HashMap<Player,Location>();
-	Map<String,BlockPlocation> playerusingblock = new HashMap<String,BlockPlocation>();
+	Map<String,Location> OnePlayerBlocksUsed = new HashMap<String,Location>();
+	Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
 	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -59,7 +57,6 @@ public class events implements Listener {
 		
 	}	
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerInteractEvent(PlayerInteractEvent event) {
 		removeplayeroutlist(event.getPlayer());
@@ -74,35 +71,38 @@ public class events implements Listener {
 			if (functions.InArray(onePlayerBlocks,(id + ":" + data)) && Blockmoreplayerusingblockenabled ){
 				Location location = event.getClickedBlock().getLocation();
 				Player player = event.getPlayer();
-				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player)){
+				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player.getName())){
 					player.sendMessage(ChatColor.RED + "This Block is already in use");
 					event.setCancelled(true);
 				}else{
-					OnePlayerBlocksUsed.put(player, location);
+					OnePlayerBlocksUsed.put(player.getName(), location);
 				}		
 			}
 			
 			//EXPBLOCKER
 			if (functions.InArray(illegalexprewardenabledblocks, (id +":" + data ) ) && blockillegalexprewardenabled){
 				Player player = event.getPlayer();
-				BlockPlocation blockPlocation = new BlockPlocation(id, data, player.getLocation());
+				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(id, data, player.getLocation());
 				playerusingblock.put(player.getName(), blockPlocation);				
 			}
 			
 			//Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
+			/*
 			if (event.getClickedBlock().getTypeId() == 188 && event.getClickedBlock().getData() == 2 && event.getPlayer().getItemInHand().getTypeId() == 21257){
 				event.getClickedBlock().setTypeId(2051);
 				ItemStack item = new ItemStack(188 , 1, (short) 0 ,(byte) 2);
 				event.getPlayer().getInventory().addItem(item);
 				event.setCancelled(true);
 			}
+			*/
 		}
     }
 	
 	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void InventoryOpenEvent (PlayerExpChangeEvent event){
+	public void PlayerExpChangeEvent (PlayerExpChangeEvent event){
+		//EXPBLOCKER
 		Player player = event.getPlayer();
 		if (maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
 				
@@ -110,7 +110,6 @@ public class events implements Listener {
 			if (functions.InArray(illegalexprewardenabledblocks, block )){
 				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
 				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.equalsIgnoreCase("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
-				
 				event.setAmount(0);
 			}
 		
@@ -119,29 +118,41 @@ public class events implements Listener {
 		
 		
 	}
-	@EventHandler(priority = EventPriority.HIGHEST)
+	/*@EventHandler(priority = EventPriority.HIGHEST)
 	void BlockBreakEvent(BlockBreakEvent event){
+		
 		if (event.getBlock().getTypeId() == 188 && event.getBlock().getData() == 2){
-			event.getBlock().setTypeId(2051);
-			event.setCancelled(true);
+			
+			event.getBlock().setTypeId(250);
+			event.getBlock().setData((byte) 12);
+			
 		}
 		
-	}
+		
+	}*/
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void InventoryClickEvent(InventoryClickEvent event) {
-		Bukkit.getLogger().info(event.getInventory().getName());
+		//Bukkit.getLogger().info(event.getInventory().getName());
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerMoveEvent(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		
-		if (playerusingblock.containsKey(player.getName()) && playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 5)
-			Bukkit.getLogger().info(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) + " LOCATION FROM FURNACE");
+		if (playerusingblock.containsKey(player.getName()) && 
+				(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 3 ||
+						event.getFrom().distance(event.getTo()) == (double) 0)){
 			playerusingblock.remove(player.getName());
+		}
 		
-		if (OnePlayerBlocksUsed.containsKey(player)) OnePlayerBlocksUsed.remove(player);
+		if (OnePlayerBlocksUsed.containsKey(player.getName()) && 
+				(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) > 6 ||
+						event.getFrom().distance(event.getTo()) == (double) 0)){
+			Bukkit.getLogger().info(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) + "");
+			OnePlayerBlocksUsed.remove(player.getName());
+		}
+		
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -156,7 +167,7 @@ public class events implements Listener {
 	
 	
 	void removeplayeroutlist(Player player){
-		if (OnePlayerBlocksUsed.containsKey(player)) OnePlayerBlocksUsed.remove(player);
+		if (OnePlayerBlocksUsed.containsKey(player.getName())) OnePlayerBlocksUsed.remove(player);
 		if (playerusingblock.containsKey(player.getName())) playerusingblock.remove(player.getName());
 	}
 }	

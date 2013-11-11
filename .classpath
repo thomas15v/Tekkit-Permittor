@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="C:/Users/thomas/Documents/Tekkit server/mcpc-plus-legacy-1.4.7-R1.1-SNAPSHOT-f534-L70.jar"/>
-	<classpathentry kind="lib" path="C:/Users/thomas/Documents/Tekkit server/mods/AdvancedMachines_1.4.6.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
