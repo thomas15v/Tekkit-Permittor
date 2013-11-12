@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
@@ -21,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 public class events implements Listener {
@@ -118,18 +120,19 @@ public class events implements Listener {
 		
 		
 	}
-	/*@EventHandler(priority = EventPriority.HIGHEST)
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler(priority = EventPriority.HIGHEST)
 	void BlockBreakEvent(BlockBreakEvent event){
 		
 		if (event.getBlock().getTypeId() == 188 && event.getBlock().getData() == 2){
-			
-			event.getBlock().setTypeId(250);
-			event.getBlock().setData((byte) 12);
-			
+			event.setCancelled(true);
+			event.getBlock().setTypeIdAndData(0 ,(byte) 0, false);
+			event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),new ItemStack(250,1,(short) 0,(byte) 12));			
 		}
 		
 		
-	}*/
+	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void InventoryClickEvent(InventoryClickEvent event) {
@@ -141,7 +144,7 @@ public class events implements Listener {
 		Player player = event.getPlayer();
 		
 		if (playerusingblock.containsKey(player.getName()) && 
-				(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 3 ||
+				(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 6 ||
 						event.getFrom().distance(event.getTo()) == (double) 0)){
 			playerusingblock.remove(player.getName());
 		}
@@ -149,7 +152,6 @@ public class events implements Listener {
 		if (OnePlayerBlocksUsed.containsKey(player.getName()) && 
 				(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) > 6 ||
 						event.getFrom().distance(event.getTo()) == (double) 0)){
-			Bukkit.getLogger().info(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) + "");
 			OnePlayerBlocksUsed.remove(player.getName());
 		}
 		

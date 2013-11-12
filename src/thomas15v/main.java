@@ -13,16 +13,20 @@ public class main extends JavaPlugin {
 	public void onEnable() {
 		loadConfiguration();
 		launchevents();
-		
+		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();			
+	}
+	
+	void forgotenrecipes(){
 		ShapedRecipe factorizationconsumer = new ShapedRecipe(new ItemStack(2855 ,1));
 		factorizationconsumer.shape(new String[] {"G G"," F ","G G"});
 		factorizationconsumer.setIngredient('G', Material.GOLD_INGOT);
 		factorizationconsumer.setIngredient('F', new MaterialData(2050, (byte) 22));
-		getServer().addRecipe(factorizationconsumer);			
+		getServer().addRecipe(factorizationconsumer);
 	}
 	
 	public void loadConfiguration(){
 		
+		getConfig().addDefault("Add_forgoten_recipe", true);
 		getConfig().addDefault("block-Mod-block-place.enabled",true);
 		getConfig().addDefault("block-Mod-block-place.blocks", "48,56,16,15,21,73,49,14");	
 		
@@ -51,9 +55,6 @@ public class main extends JavaPlugin {
 		Events.illegalexprewardenabledblocks = getConfig().getString("block-illegal-exp-reward.blocks").split(",");
 		Events.maxexp = getConfig().getInt("block-illegal-exp-reward.maxexp");
 		
-		getServer().getPluginManager().registerEvents(Events, this);	
-		
-		
-		
+		getServer().getPluginManager().registerEvents(Events, this);			
 	}
 }
