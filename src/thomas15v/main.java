@@ -1,5 +1,9 @@
 package thomas15v;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,25 +16,19 @@ public class main extends JavaPlugin {
 	public void onEnable() {
 		loadConfiguration();
 		launchevents();
-<<<<<<< HEAD
+
 		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();			
 	}
 	
 	void forgotenrecipes(){
-=======
-		
-		/*
->>>>>>> f5004d3dea567d7356fd1fce956df8f66a8653a8
+
 		ShapedRecipe factorizationconsumer = new ShapedRecipe(new ItemStack(2855 ,1));
 		factorizationconsumer.shape(new String[] {"G G"," F ","G G"});
 		factorizationconsumer.setIngredient('G', Material.GOLD_INGOT);
 		factorizationconsumer.setIngredient('F', new MaterialData(2050, (byte) 22));
-<<<<<<< HEAD
 		getServer().addRecipe(factorizationconsumer);
-=======
 		getServer().addRecipe(factorizationconsumer);		
-		*/	
->>>>>>> f5004d3dea567d7356fd1fce956df8f66a8653a8
+
 	}
 	
 	public void loadConfiguration(){
@@ -65,9 +63,6 @@ public class main extends JavaPlugin {
 		Events.illegalexprewardenabledblocks = getConfig().getString("block-illegal-exp-reward.blocks").split(",");
 		Events.maxexp = getConfig().getInt("block-illegal-exp-reward.maxexp");
 		
-<<<<<<< HEAD
-		getServer().getPluginManager().registerEvents(Events, this);			
-=======
 		getServer().getPluginManager().registerEvents(Events, this);
 		
 		Worldguardevents worldguardevents = new Worldguardevents(getWorldGuard());
@@ -84,6 +79,5 @@ public class main extends JavaPlugin {
 	    }
 	 
 	    return (WorldGuardPlugin) plugin;
->>>>>>> f5004d3dea567d7356fd1fce956df8f66a8653a8
 	}
 }
