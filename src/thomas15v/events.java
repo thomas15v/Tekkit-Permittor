@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
@@ -22,7 +21,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 
 
 public class events implements Listener {
@@ -121,6 +119,7 @@ public class events implements Listener {
 		
 	}
 	
+	/*
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	void BlockBreakEvent(BlockBreakEvent event){
@@ -133,6 +132,7 @@ public class events implements Listener {
 		
 		
 	}
+	*/
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void InventoryClickEvent(InventoryClickEvent event) {

@@ -19,7 +19,7 @@ public class Worldguardevents implements Listener {
 	int[] tools = {30119,30124,5582,5587,20257,20259,27003,27002,19297};
 	int[] alwaysblockedtools = {19263,4363,4364,19261,30208,30215};
 	int [] Containerblocks = {23,25,54,61,62,64,69,70,71,72,77,96,84,93,94,107,192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223};
-	int [] UseBlocks = {};
+	int [] UseBlocks = {255};
 	WorldGuardPlugin worldguard;
 	
 	public Worldguardevents(WorldGuardPlugin worldgoard){
@@ -29,10 +29,9 @@ public class Worldguardevents implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	void PlayerInteractEvent(PlayerInteractEvent event){
-		Player player = event.getPlayer();
-		Block block = event.getClickedBlock();
-		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
+			Player player = event.getPlayer();
+			Block block = event.getClickedBlock();
 			ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 			if (event.hasItem()){
 				int iteminhand = event.getItem().getTypeId();
@@ -60,17 +59,13 @@ public class Worldguardevents implements Listener {
 				event.setCancelled(true);
 				return;
 			}
-			
-			
-			{
-				
-			}
-			
-			
-			
+			if (functions.InArray(UseBlocks, block.getTypeId()) && !region.allows(DefaultFlag.USE ,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
+				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
+				event.setCancelled(true);
+				return;
+			}			
 		}
 		
 		
 	}
-	
 }
