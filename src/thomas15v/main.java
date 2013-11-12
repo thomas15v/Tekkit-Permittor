@@ -4,7 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
 	
@@ -36,6 +38,7 @@ public class main extends JavaPlugin {
 		
 	    getConfig().options().copyDefaults(true);
 	    saveConfig();
+	
 	}
 	
 	public void launchevents(){
@@ -51,9 +54,17 @@ public class main extends JavaPlugin {
 		Events.illegalexprewardenabledblocks = getConfig().getString("block-illegal-exp-reward.blocks").split(",");
 		Events.maxexp = getConfig().getInt("block-illegal-exp-reward.maxexp");
 		
-		getServer().getPluginManager().registerEvents(Events, this);	
-		
-		
-		
+		getServer().getPluginManager().registerEvents(Events, this);			
+	}
+	
+	private WorldGuardPlugin getWorldGuard() {
+	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+	 
+	    // WorldGuard may not be loaded
+	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+	        return null; // Maybe you want throw an exception instead
+	    }
+	 
+	    return (WorldGuardPlugin) plugin;
 	}
 }
