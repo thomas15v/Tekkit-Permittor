@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -65,7 +67,25 @@ public class Worldguardevents implements Listener {
 				return;
 			}			
 		}
-		
-		
 	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void BlockPlaceEvent(BlockPlaceEvent event){
+		Block block = event.getBlock();
+		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
+		Boolean inarea =  region.iterator().hasNext();
+		if (inarea && (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") )){
+			event.setCancelled(true);			
+		}		
+		
+	}	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void BlockBreakEvent(BlockBreakEvent event){
+		Block block = event.getBlock();
+		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
+		Boolean inarea =  region.iterator().hasNext();
+		if (inarea && (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") )){
+			event.setCancelled(true);			
+		}		
+		
+	}	
 }
