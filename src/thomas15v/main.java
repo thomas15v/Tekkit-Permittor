@@ -83,16 +83,19 @@ public class main extends JavaPlugin {
 	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
 	        Bukkit.getLogger().info("[Tekkit Little Permitor] No worldguard plugin founded!!!");
 	    }else{
-	   	
+	    	 if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+	 	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
+	 	    }else{
 	    	
-	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
-	    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
-	    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
-	    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
-	    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
-	    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
-	    	
-	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
+		    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
+		    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
+		    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
+		    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
+		    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
+		    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
+		    	
+		    	getServer().getPluginManager().registerEvents(worldguardevents, this);
+	 	    }
 	    }
 	}
 }
