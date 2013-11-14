@@ -16,11 +16,11 @@ public class main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		loadConfiguration();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] configuration loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
 		launchevents();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] events loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
 		loadWorldGuardsupport();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
 	}
 	
 	void forgotenrecipes(){
@@ -81,7 +81,7 @@ public class main extends JavaPlugin {
 	 
 	    // WorldGuard may not be loaded
 	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-	        Bukkit.getLogger().info("[Tekkit Little Permitor] No worldguard plugin founded!!!");
+	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
 	    }else{
 	    	if (getConfig().getBoolean("Protection.enabled")){
 	    		Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
