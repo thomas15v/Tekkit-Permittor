@@ -51,7 +51,7 @@ public class main extends JavaPlugin {
 		getConfig().addDefault("Protection.wrenches", "21257,30140,30183,4062,4370");
 		getConfig().addDefault("Protection.tools", "30119,30124,5582,5587,20257,20259,27003,27002,19297" );
 		getConfig().addDefault("Protection.alwaysblockedtools", "19263,4363,4364,19261,30208,30215,30131");
-		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223");
+		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223,763,2004,2007,2005");
 		getConfig().addDefault("Protection.UseBlocks", "255");
 		
 		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
