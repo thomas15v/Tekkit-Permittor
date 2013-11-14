@@ -40,11 +40,11 @@ public class main extends JavaPlugin {
 		getConfig().addDefault("block-Mod-block-place.enabled",true);
 		getConfig().addDefault("block-Mod-block-place.blocks", "48,56,16,15,21,73,49,14");	
 		
-		getConfig().addDefault("block-illegal-exp-reward.enabled", true);		
+		getConfig().addDefault("block-illegal-exp-reward.enabled", false);		
 		getConfig().addDefault("block-illegal-exp-reward.blocks", "188,250,2050:8,61");
 		getConfig().addDefault("block-illegal-exp-reward.maxexp", 0);
 		
-		getConfig().addDefault("Block-moreplayer-using-block.enabled", true);
+		getConfig().addDefault("Block-moreplayer-using-block.enabled", false);
 		getConfig().addDefault("Block-moreplayer-using-block.blocks", "751:3");
 		
 		getConfig().addDefault("Protection.enabled", true);
