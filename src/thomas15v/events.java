@@ -18,7 +18,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerInventoryEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -172,10 +171,6 @@ public class events implements Listener {
 	void removeplayeroutlist(Player player){
 		if (OnePlayerBlocksUsed.containsKey(player.getName())) OnePlayerBlocksUsed.remove(player);
 		if (playerusingblock.containsKey(player.getName())) playerusingblock.remove(player.getName());
-	}
-	
-	void rem(InventoryClickEvent event){
-		event.ge
 	}
 }	
 
