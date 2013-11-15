@@ -1,14 +1,13 @@
 package thomas15v;
 
+import java.util.Arrays;
+
 
 
 public class functions {
 
 	static boolean InArray(int[] array, int value){
-		for (int i : array) {
-			if (i == value) return true;
-		}
-		return false;
+		return Arrays.asList(array).contains(value);
 	}
 	
 	static boolean InArray(String[] array, String value){

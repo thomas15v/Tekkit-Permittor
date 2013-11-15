@@ -2,6 +2,8 @@ package thomas15v;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -52,7 +54,7 @@ public class main extends JavaPlugin {
 		getConfig().addDefault("Protection.tools", "30119,30124,5582,5587,20257,20259,27003,27002,19297" );
 		getConfig().addDefault("Protection.alwaysblockedtools", "19263,4363,4364,19261,30208,30215,30131");
 		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223");
-		getConfig().addDefault("Protection.UseBlocks", "255");
+		getConfig().addDefault("Protection.UseBlocks", "255,");
 		
 		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
 		
@@ -95,5 +97,14 @@ public class main extends JavaPlugin {
 	    	
 	    	
 	    }
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		getLogger().info("YEAH");
+		if(command.getName().equalsIgnoreCase("tep")){ // If the player typed /basic then do the following...
+			getLogger().info("YEAH");
+		}
+		return false;
 	}
 }
