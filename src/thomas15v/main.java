@@ -48,6 +48,7 @@ public class main extends JavaPlugin {
 	public void loadConfiguration(){
 		File ConfigFile = new File(getDataFolder(), "Config.yml");
 		
+
 		if (ConfigFile.exists()){
 			FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
 			getConfig().setDefaults(Config);
@@ -55,6 +56,7 @@ public class main extends JavaPlugin {
 		else{
 			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
 		}
+		
 		
 		try {
 			Config.save(ConfigFile);
@@ -87,18 +89,19 @@ public class main extends JavaPlugin {
 	 
 	    // WorldGuard may not be loaded
 	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-	        Bukkit.getLogger().info("[Tekkit Little Permitor] No worldguard plugin founded!!!");
+	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
 	    }else{
-	   	
+	    	if (getConfig().getBoolean("Protection.enabled")){
+	    		Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
+		    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
+		    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
+		    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
+		    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
+		    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
+		    	getServer().getPluginManager().registerEvents(worldguardevents, this);
+	    	}
 	    	
-	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
-	    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
-	    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
-	    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
-	    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
-	    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
 	    	
-	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
 	    }
 	}
 	
