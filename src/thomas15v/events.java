@@ -46,7 +46,7 @@ public class events implements Listener {
 	public void BlockPlaceEvent(BlockPlaceEvent event){
 		int block = event.getBlock().getTypeId();
 		
-		if (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
+		if (event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
 			if (functions.InArray(noplaceblock, block)){
