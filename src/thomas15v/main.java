@@ -1,7 +1,14 @@
 package thomas15v;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -12,15 +19,19 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
 	
+	File ConfigFile = null;
+	FileConfiguration Config = null;
+	
+	
 	
 	@Override
 	public void onEnable() {
 		loadConfiguration();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] configuration loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
 		launchevents();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] events loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
 		loadWorldGuardsupport();
-		Bukkit.getLogger().info("[Tekkit Little Permitor] loaded!");
+		Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
 	}
 	
 	void forgotenrecipes(){
@@ -35,30 +46,25 @@ public class main extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
+		File ConfigFile = new File(getDataFolder(), "Config.yml");
 		
-		getConfig().addDefault("Add_forgoten_recipe", false);
-		getConfig().addDefault("block-Mod-block-place.enabled",true);
-		getConfig().addDefault("block-Mod-block-place.blocks", "48,56,16,15,21,73,49,14");	
+		if (ConfigFile.exists()){
+			FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
+			getConfig().setDefaults(Config);
+		}
+		else{
+			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
+		}
 		
-		getConfig().addDefault("block-illegal-exp-reward.enabled", true);		
-		getConfig().addDefault("block-illegal-exp-reward.blocks", "188,250,2050:8,61");
-		getConfig().addDefault("block-illegal-exp-reward.maxexp", 0);
+		try {
+			Config.save(ConfigFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		getConfig().addDefault("Block-moreplayer-using-block.enabled", true);
-		getConfig().addDefault("Block-moreplayer-using-block.blocks", "751:3");
-		
-		getConfig().addDefault("Protection.enabled", true);
-		getConfig().addDefault("Protection.wrenches", "21257,30140,30183,4062,4370");
-		getConfig().addDefault("Protection.tools", "30119,30124,5582,5587,20257,20259,27003,27002,19297" );
-		getConfig().addDefault("Protection.alwaysblockedtools", "19263,4363,4364,19261,30208,30215,30131");
-		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223,763,2004,2007,2005");
-		getConfig().addDefault("Protection.UseBlocks", "255");
-		
-		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
-		
-	    getConfig().options().copyDefaults(true);
-	    saveConfig();
-	
+
+		if (Config.getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
 	}
 	
 	public void launchevents(){
@@ -94,5 +100,11 @@ public class main extends JavaPlugin {
 	    	
 	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
 	    }
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	Bukkit.getLogger().info("YEAH");
+	return true;
 	}
 }
