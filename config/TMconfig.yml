@@ -1,0 +1,19 @@
+configname: Tekkit Main
+Add_forgoten_recipe: false
+block-Mod-block-place:
+  enabled: true
+  blocks: 48,56,16,15,21,73,49,14,62
+block-illegal-exp-reward:
+  enabled: true
+  blocks: 188,250,2050:8,61
+  maxexp: 0
+Block-moreplayer-using-block:
+  enabled: true
+  blocks: '751:3'
+Protection:
+  enabled: true
+  wrenches: 5397,5766,8858
+  tools: 5909,5206,5205,5662,5693,5695,5696,5967,5968,6037
+  alwaysblockedtools: 5759,5967
+  Containerblocks: 917,918,924,930,551,987,871,872,873,762,887,888,889,890,892,894,911,501,502,503,504,510,520,686,687,742,743,1404,1405,1406,1407,1411,1415,1416,1419,761,762,763,764,765,1026,1027,1029,1030,1031,1032,581,582,583,584,594,597,598,599,602,607,608,1061,200,846,849,848,847
+  UseBlocks: '537'
