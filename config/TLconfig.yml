@@ -1,0 +1,33 @@
+configname: Tekkit Litle
+#adds recipe for factorization consumer
+Add_forgoten_recipe: false
+block-Mod-block-place:
+  #enable blocking blocks been placed by mods like computercraft and redpower2?
+  enabled: true
+  #list of blocks been blocking (no sub id support here)
+  blocks: 48,56,16,15,21,73,49,14
+block-illegal-exp-reward:
+  #block experience points from smelting blocks?
+  enabled: true
+  #blocks that do smelting (subid's are allowed here)
+  blocks: 188,250,2050:8,61
+  #max exp that is allowed to get from these blocks (0 is recomend)
+  maxexp: 0
+Block-moreplayer-using-block:
+  #block blocks being used by more than 2 players?
+  enabled: true
+  #blocklist (subid's are allowed)
+  blocks: '751:3'
+Protection:
+  #Enable worldguard protection
+  enabled: true
+  #defines wrench ID's
+  wrenches: 21257,30140,30183,4062,4370
+  #Define Non-wrench ID's. In fact wrenches and tools are the same only the have a diffrent message ;).
+  tools: 30119,30124,5582,5587,20257,20259,27003,27002,19297
+  #Define tools that are dangerous and never should be used in a region
+  alwaysblockedtools: 19263,4363,4364,19261,30208,30215,30131
+  #define blocks that acts like chests and machines
+  Containerblocks: 192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223
+  #Defines trading blocks that are allowed to use in every region (same as enderchest)
+  UseBlocks: '255'

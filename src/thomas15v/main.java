@@ -1,9 +1,17 @@
 package thomas15v;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+<<<<<<< HEAD
+=======
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+>>>>>>> 291502d56c86880d4bd5c470fe233bb97136c339
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -13,6 +21,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
+	
+	File ConfigFile = null;
+	FileConfiguration Config = null;
+	
 	
 	
 	@Override
@@ -37,7 +49,9 @@ public class main extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
+		File ConfigFile = new File(getDataFolder(), "Config.yml");
 		
+<<<<<<< HEAD
 		getConfig().addDefault("Add_forgoten_recipe", false);
 		getConfig().addDefault("block-Mod-block-place.enabled",true);
 		getConfig().addDefault("block-Mod-block-place.blocks", "48,56,16,15,21,73,49,14");	
@@ -55,12 +69,27 @@ public class main extends JavaPlugin {
 		getConfig().addDefault("Protection.alwaysblockedtools", "19263,4363,4364,19261,30208,30215,30131");
 		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223");
 		getConfig().addDefault("Protection.UseBlocks", "255,");
+=======
+
+		if (ConfigFile.exists()){
+			FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
+			getConfig().setDefaults(Config);
+		}
+		else{
+			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
+		}
+>>>>>>> 291502d56c86880d4bd5c470fe233bb97136c339
 		
-		if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
+
+		try {
+			Config.save(ConfigFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-	    getConfig().options().copyDefaults(true);
-	    saveConfig();
-	
+
+		if (Config.getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
 	}
 	
 	public void launchevents(){
@@ -82,21 +111,26 @@ public class main extends JavaPlugin {
 	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 	 
 	    // WorldGuard may not be loaded
-	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
-	    }else{
-	    	if (getConfig().getBoolean("Protection.enabled")){
-	    		Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
-		    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
-		    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
-		    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
-		    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
-		    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
-		    	getServer().getPluginManager().registerEvents(worldguardevents, this);
-	    	}
+    	 if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+ 	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
+ 	    }else{
+    	
+	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
+	    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
+	    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
+	    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
+	    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
+	    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
 	    	
-	    	
-	    }
+	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
+ 	    }
+
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	Bukkit.getLogger().info("YEAH");
+	return true;
 	}
 	
 	@Override

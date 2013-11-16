@@ -1,5 +1,6 @@
 name: Tekkit Permittor
 main: thomas15v.main
+<<<<<<< HEAD
 version: 1.3
 commands:
   tep:
@@ -7,3 +8,12 @@ commands:
     usage: /tep reload
     permission: tekkitpermittor.command
     permission-message: You don't have <permission>
+=======
+version: 1.5
+  commands:
+   tep:
+      description: This is a demo command.
+#      usage: /<command> [player]
+#      permission: <plugin name>.basic
+#      permission-message: You don't have <permission>
+>>>>>>> 291502d56c86880d4bd5c470fe233bb97136c339

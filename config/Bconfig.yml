@@ -1,0 +1,10 @@
+configname: Bukkit
+Add_forgoten_recipe: false
+block-illegal-exp-reward:
+  enabled: false
+  blocks: 61,62
+  maxexp: 0
+Protection:
+  enabled: true
+  tools: 351,373,368
+  alwaysblockedtools: 394

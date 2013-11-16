@@ -46,7 +46,7 @@ public class events implements Listener {
 	public void BlockPlaceEvent(BlockPlaceEvent event){
 		int block = event.getBlock().getTypeId();
 		
-		if (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
+		if (event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
 			if (functions.InArray(noplaceblock, block)){
@@ -86,7 +86,7 @@ public class events implements Listener {
 				playerusingblock.put(player.getName(), blockPlocation);				
 			}
 			
-			//Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
+			/**Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
 			/*
 			if (event.getClickedBlock().getTypeId() == 188 && event.getClickedBlock().getData() == 2 && event.getPlayer().getItemInHand().getTypeId() == 21257){
 				event.getClickedBlock().setTypeId(2051);
@@ -94,7 +94,7 @@ public class events implements Listener {
 				event.getPlayer().getInventory().addItem(item);
 				event.setCancelled(true);
 			}
-			*/
+			**/
 		}
     }
 	
