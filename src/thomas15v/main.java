@@ -7,11 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-<<<<<<< HEAD
-=======
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
->>>>>>> 291502d56c86880d4bd5c470fe233bb97136c339
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -51,25 +48,7 @@ public class main extends JavaPlugin {
 	public void loadConfiguration(){
 		File ConfigFile = new File(getDataFolder(), "Config.yml");
 		
-<<<<<<< HEAD
-		getConfig().addDefault("Add_forgoten_recipe", false);
-		getConfig().addDefault("block-Mod-block-place.enabled",true);
-		getConfig().addDefault("block-Mod-block-place.blocks", "48,56,16,15,21,73,49,14");	
-		
-		getConfig().addDefault("block-illegal-exp-reward.enabled", true);		
-		getConfig().addDefault("block-illegal-exp-reward.blocks", "188,250,2050:8,61");
-		getConfig().addDefault("block-illegal-exp-reward.maxexp", 0);
-		
-		getConfig().addDefault("Block-moreplayer-using-block.enabled", true);
-		getConfig().addDefault("Block-moreplayer-using-block.blocks", "751:3");
-		
-		getConfig().addDefault("Protection.enabled", true);
-		getConfig().addDefault("Protection.wrenches", "21257,30140,30183,4062,4370");
-		getConfig().addDefault("Protection.tools", "30119,30124,5582,5587,20257,20259,27003,27002,19297" );
-		getConfig().addDefault("Protection.alwaysblockedtools", "19263,4363,4364,19261,30208,30215,30131");
-		getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223");
-		getConfig().addDefault("Protection.UseBlocks", "255,");
-=======
+
 
 		if (ConfigFile.exists()){
 			FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
@@ -78,7 +57,6 @@ public class main extends JavaPlugin {
 		else{
 			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
 		}
->>>>>>> 291502d56c86880d4bd5c470fe233bb97136c339
 		
 
 		try {
@@ -126,13 +104,7 @@ public class main extends JavaPlugin {
  	    }
 
 	}
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-	Bukkit.getLogger().info("YEAH");
-	return true;
-	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		getLogger().info("YEAH");
