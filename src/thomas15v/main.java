@@ -8,12 +8,13 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import thomas15v.configuration.manager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -22,16 +23,13 @@ public class main extends JavaPlugin {
 	File ConfigFile = null;
 	FileConfiguration Config = null;
 	
-	
+	manager mgr = new manager(this);
 	
 	@Override
 	public void onEnable() {
+		
 		loadConfiguration();
-		Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
-		launchevents();
-		Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
-		loadWorldGuardsupport();
-		Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
+		
 	}
 	
 	void forgotenrecipes(){
@@ -46,28 +44,35 @@ public class main extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
-		File ConfigFile = new File(getDataFolder(), "Config.yml");
+		File ConfigFile = new File(getDataFolder(), "config.yml");
 		
-
-
 		if (ConfigFile.exists()){
-			FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
-			getConfig().setDefaults(Config);
+			mgr.reload();
+			if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
+			Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
+			launchevents();
+			Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
+			loadWorldGuardsupport();
+			Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
 		}
 		else{
 			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
+			
+			
+			try {
+				Config.save(ConfigFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 
-		try {
-			Config.save(ConfigFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 
-		if (Config.getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
+		
 	}
 	
 	public void launchevents(){
@@ -93,24 +98,22 @@ public class main extends JavaPlugin {
  	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
  	    }else{
     	
-	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);
-	    	worldguardevents.wrenches = functions.StringToIntArray(getConfig().getString("Protection.wrenches"));
-	    	worldguardevents.tools = functions.StringToIntArray(getConfig().getString("Protection.tools"));
-	    	worldguardevents.alwaysblockedtools = functions.StringToIntArray(getConfig().getString("Protection.alwaysblockedtools"));
-	    	worldguardevents.Containerblocks = functions.StringToIntArray(getConfig().getString("Protection.Containerblocks"));
-	    	worldguardevents.UseBlocks = functions.StringToIntArray(getConfig().getString("Protection.UseBlocks"));
+	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin, mgr);
+	    	
 	    	
 	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
  	    }
 
 	}
-
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		getLogger().info("YEAH");
-		if(command.getName().equalsIgnoreCase("tep")){ // If the player typed /basic then do the following...
-			getLogger().info("YEAH");
+		if (command.getName().equalsIgnoreCase("tep")){ 
+			mgr.reload();
+			return true;
 		}
-		return false;
+		
+		return true;
 	}
+	
 }

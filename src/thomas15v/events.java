@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,8 +25,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class events implements Listener {
 	
 	
-	FileConfiguration config;
-	
 	public int[] noplaceblock = {48,56,16,15,21,73,49,14};
 	public boolean Modblockplaceenabled = true;
 	
@@ -40,6 +37,8 @@ public class events implements Listener {
 	
 	Map<String,Location> OnePlayerBlocksUsed = new HashMap<String,Location>();
 	Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
+	
+	
 	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

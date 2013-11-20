@@ -6,11 +6,11 @@ import java.util.Arrays;
 
 public class functions {
 
-	static boolean InArray(int[] array, int value){
+	public static boolean InArray(int[] array, int value){
 		return Arrays.asList(array).contains(value);
 	}
 	
-	static boolean InArray(String[] array, String value){
+	public static boolean InArray(String[] array, String value){
 		String bettervalue = value;
 		for (String i : array) {
 			
@@ -21,7 +21,7 @@ public class functions {
 		return false;
 	}
 	
-	static int[] StringToIntArray(String value){
+	public static int[] StringToIntArray(String value){
 		String[] array = value.split(",");
 		int[] returnvalue = new int[array.length];
 		
