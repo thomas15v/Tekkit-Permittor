@@ -19,25 +19,35 @@ import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 public class Worldguardevents implements Listener {
 	
-	manager mgr = null;
+	main plugin = null;
 	
 	WorldGuardPlugin worldguard;
 	
-	public Worldguardevents(WorldGuardPlugin worldgoard, manager mgr){
+	public Worldguardevents(WorldGuardPlugin worldgoard, main plugin){
 		this.worldguard = worldgoard;
-		this.mgr = mgr;
+		this.plugin = plugin;
 	}
 	
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	void PlayerInteractEvent(PlayerInteractEvent event){
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
+			
+			
+			
 			Player player = event.getPlayer();
 			Block block = event.getClickedBlock();
 			ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
+			
+			manager mgr = plugin.GetConfigManager();
+			
+			plugin.getLogger().info(mgr.getworldguardconfig().wrenches[0] + "");
+			
 			if (event.hasItem()){
 				int iteminhand = event.getItem().getTypeId();
 				Boolean inarea =  region.iterator().hasNext();
+				
+				
 				
 				if (functions.InArray(mgr.getworldguardconfig().wrenches, iteminhand) && !worldguard.canBuild(player,block)){
 					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a wrench in this area");
@@ -71,6 +81,7 @@ public class Worldguardevents implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
+		manager mgr = plugin.GetConfigManager();
 		Block block = event.getBlock();
 		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 		Boolean inarea =  region.iterator().hasNext();

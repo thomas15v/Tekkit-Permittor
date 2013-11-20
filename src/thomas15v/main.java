@@ -1,13 +1,9 @@
 package thomas15v;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -20,14 +16,10 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
 	
-	File ConfigFile = null;
-	FileConfiguration Config = null;
-	
-	manager mgr = new manager(this);
+	manager mgr = null;
 	
 	@Override
 	public void onEnable() {
-		
 		loadConfiguration();
 		
 	}
@@ -44,28 +36,19 @@ public class main extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
-		File ConfigFile = new File(getDataFolder(), "config.yml");
 		
-		if (ConfigFile.exists()){
-			mgr.reload();
-			if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
+		this.mgr = new manager(this);
+		if (this.mgr.ConfigFileExist()){
+			this.mgr.reload();
+			//if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
 			Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
-			launchevents();
+			//launchevents();
 			Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
 			loadWorldGuardsupport();
 			Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
 		}
 		else{
-			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");
-			
-			
-			try {
-				Config.save(ConfigFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");			
 		}
 		
 
@@ -98,9 +81,7 @@ public class main extends JavaPlugin {
  	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
  	    }else{
     	
-	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin, mgr);
-	    	
-	    	
+	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin, this);	    	
 	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
  	    }
 
@@ -116,4 +97,7 @@ public class main extends JavaPlugin {
 		return true;
 	}
 	
+	public manager GetConfigManager(){
+		return mgr;
+	}
 }
