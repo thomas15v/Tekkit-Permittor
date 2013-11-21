@@ -1,7 +1,17 @@
 package thomas15v;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +25,7 @@ import thomas15v.configuration.manager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
-	manager mgr = null;
+
 	
 	@Override
 	public void onEnable() {
@@ -35,10 +45,9 @@ public class main extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
-		
-		this.mgr = new manager(this);
-		if (this.mgr.ConfigFileExist()){
-			this.mgr.reload();
+		manager.setdatafolder(getDataFolder());
+		if (manager.ConfigFileExist()){
+			manager.reload();
 			//if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
 			Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
 			//launchevents();
@@ -79,8 +88,7 @@ public class main extends JavaPlugin {
     	 if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
  	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
  	    }else{
-    	
-	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin, this);	    	
+	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);	    	
 	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
  	    }
 
@@ -88,15 +96,78 @@ public class main extends JavaPlugin {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (command.getName().equalsIgnoreCase("tep")){ 
-			mgr.reload();
-			return true;
+		if (command.getName().equalsIgnoreCase("tep") && args.length > 0){ 
+			if (args[0].equalsIgnoreCase("reload")) {
+				manager.reload();
+				sender.sendMessage(ChatColor.GREEN + "Reload Complete!");
+				return true;
+			}
+			else if (args[0].equalsIgnoreCase("choicedefault") && args.length > 1){
+				
+				if (!manager.ConfigFileExist()){
+					copy(getResource("config/" + args[1].toLowerCase() +"config"), manager.GetConfigFile());
+					manager.reload();
+					sender.sendMessage(ChatColor.DARK_GREEN + "You Written the default configuration file");
+				}
+				else{
+					sender.sendMessage(ChatColor.RED + "Their is already an configuration file!");
+					sender.sendMessage(ChatColor.RED + "Delete The old one, before executing this command");
+				}
+				
+				return true;						
+			}
+			else if (args[0].equalsIgnoreCase("unloadforcedchunks") && args.length > 0){
+				int replacedquarrys = 0;
+				for (World w : getServer().getWorlds()){
+					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
+					for (Chunk c : w.getLoadedChunks()){
+						for (int x = 0; x < 16; x++){
+                            for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
+                            {
+                                    for(int z = 0; z < 16; z++)
+                                    {
+                                    	 Block block = c.getBlock(x, y, z);
+               
+                                    	 if (block.getTypeId() == 153){
+                                    		 replacedquarrys++;
+                                    		 sender.sendMessage(ChatColor.GREEN + "Quarry found on " + block.getX() + " " + block.getY() + " " + block.getZ());
+                                    		 block.breakNaturally(new ItemStack(0,0));
+                                    		 block.setType(Material.CHEST);
+                                    		 Chest chest = (Chest) block.getState();
+                                    		 chest.getInventory().addItem(new ItemStack(153,1));                                   		 
+                                    	 }
+                                    }
+                            }
+						}
+					}
+				}
+				sender.sendMessage(replacedquarrys + " Quarry's replaced");
+				return true;
+				
+			}
+			
 		}
 		
-		return true;
+		return false;
 	}
 	
-	public manager GetConfigManager(){
-		return mgr;
-	}
+	 /*
+     * this copy(); method copies the specified file from your jar
+     *     to your /plugins/<pluginName>/ folder
+     */
+    private void copy(InputStream in, File file) {
+        try {
+            OutputStream out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while((len=in.read(buf))>0){
+                out.write(buf,0,len);
+            }
+            out.close();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
 }

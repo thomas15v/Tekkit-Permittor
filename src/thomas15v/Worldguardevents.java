@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import thomas15v.configuration.WorldGuardConfig;
 import thomas15v.configuration.manager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -19,16 +20,11 @@ import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 public class Worldguardevents implements Listener {
 	
-	
-	
-	
-	main plugin = null;
-	
 	WorldGuardPlugin worldguard;
 	
-	public Worldguardevents(WorldGuardPlugin worldgoard, main plugin){
+	public Worldguardevents(WorldGuardPlugin worldgoard){
 		this.worldguard = worldgoard;
-		this.plugin = plugin;
+		//this.plugin = plugin
 	}
 	
 	
@@ -41,9 +37,7 @@ public class Worldguardevents implements Listener {
 			Block block = event.getClickedBlock();
 			ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 			
-			manager mgr = plugin.GetConfigManager();
-			
-			plugin.getLogger().info(mgr.getworldguardconfig().wrenches[0] + "");
+			WorldGuardConfig mgr = manager.getworldguardConfig();
 			
 			if (event.hasItem()){
 				int iteminhand = event.getItem().getTypeId();
@@ -51,29 +45,29 @@ public class Worldguardevents implements Listener {
 				
 				
 				
-				if (functions.InArray(mgr.getworldguardconfig().wrenches, iteminhand) && !worldguard.canBuild(player,block)){
+				if (functions.InArray(mgr.wrenches, iteminhand) && !worldguard.canBuild(player,block)){
 					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a wrench in this area");
 					event.setCancelled(true);
 					return;
 				}					
 				
-				if (functions.InArray(mgr.getworldguardconfig().wrenches, iteminhand) && !worldguard.canBuild(player,block)){
+				if (functions.InArray(mgr.wrenches, iteminhand) && !worldguard.canBuild(player,block)){
 					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a tool in this area");
 					event.setCancelled(true);
 					return;
 				}
 				
-				if (functions.InArray(mgr.getworldguardconfig().alwaysblockedtools, iteminhand) && inarea){
+				if (functions.InArray(mgr.alwaysblockedtools, iteminhand) && inarea){
 					player.sendMessage(ChatColor.DARK_RED + "The usage of this tool is disabled globally in every region");
 					event.setCancelled(true);
 				}
 			}
-			if (functions.InArray(mgr.getworldguardconfig().Containerblocks, block.getTypeId()) && !region.allows(DefaultFlag.CHEST_ACCESS,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
+			if (functions.InArray(mgr.Containerblocks, block.getTypeId()) && !region.allows(DefaultFlag.CHEST_ACCESS,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
 				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
 				event.setCancelled(true);
 				return;
 			}
-			if (functions.InArray(mgr.getworldguardconfig().UseBlocks, block.getTypeId()) && !region.allows(DefaultFlag.USE ,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
+			if (functions.InArray(mgr.UseBlocks, block.getTypeId()) && !region.allows(DefaultFlag.USE ,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
 				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
 				event.setCancelled(true);
 				return;
@@ -83,7 +77,7 @@ public class Worldguardevents implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
-		manager mgr = plugin.GetConfigManager();
+		WorldGuardConfig mgr = manager.getworldguardConfig();
 		Block block = event.getBlock();
 		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 		Boolean inarea =  region.iterator().hasNext();
@@ -91,7 +85,7 @@ public class Worldguardevents implements Listener {
 			event.setCancelled(true);			
 		}		
 		
-		if (inarea && functions.InArray(mgr.getworldguardconfig().alwaysblockedblocks, block.getTypeId())){
+		if (inarea && functions.InArray(mgr.alwaysblockedblocks, block.getTypeId())){
 			event.getPlayer().sendMessage(ChatColor.DARK_RED + "The placement of this block is blocked globally");
 			event.setCancelled(true);
 		}
