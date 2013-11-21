@@ -28,7 +28,6 @@ public class Worldguardevents implements Listener {
 		//this.plugin = plugin
 	}
 	
-	
 	@EventHandler(priority = EventPriority.MONITOR)
 	void PlayerInteractEvent(PlayerInteractEvent event){
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
@@ -61,6 +60,7 @@ public class Worldguardevents implements Listener {
 				if (functions.InArray(mgr.alwaysblockedtools, iteminhand) && inarea){
 					player.sendMessage(ChatColor.DARK_RED + "The usage of this tool is disabled globally in every region");
 					event.setCancelled(true);
+					return;
 				}
 			}
 			if (functions.InArray(mgr.Containerblocks, block.getTypeId()) && !region.allows(DefaultFlag.CHEST_ACCESS,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){

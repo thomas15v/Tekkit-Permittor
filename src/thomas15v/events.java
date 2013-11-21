@@ -21,34 +21,25 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import thomas15v.configuration.EventConfig;
+import thomas15v.configuration.manager;
+
 
 public class events implements Listener {
 	
-	
-	public int[] noplaceblock = {48,56,16,15,21,73,49,14};
-	public boolean Modblockplaceenabled = true;
-	
-	public boolean Blockmoreplayerusingblockenabled = true;
-	public String[] onePlayerBlocks = {"751:3"};
-	
-	public int maxexp = 10;
-	public boolean blockillegalexprewardenabled = true;
-	public String[] illegalexprewardenabledblocks = {"188","250"};
-	
-	Map<String,Location> OnePlayerBlocksUsed = new HashMap<String,Location>();
-	Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
-	
-	
-	
+	public Map<String,Location> OnePlayerBlocksUsed = new HashMap<String,Location>();
+	public Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
+		EventConfig mgr = manager.geteventconfig();
+		
 		int block = event.getBlock().getTypeId();
 		
-		if (event.getPlayer().getName().equalsIgnoreCase("[computercraft]") ){
+		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
-			if (functions.InArray(noplaceblock, block)){
+			if (functions.InArray(mgr.noplaceblock, block)){
 				Bukkit.getLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);
 			}
@@ -58,6 +49,8 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerInteractEvent(PlayerInteractEvent event) {
+		EventConfig mgr = manager.geteventconfig();
+		
 		removeplayeroutlist(event.getPlayer());
 		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK){
@@ -67,7 +60,7 @@ public class events implements Listener {
 			int id = block.getTypeId();
 					
 			//multiple block use blocking
-			if (functions.InArray(onePlayerBlocks,(id + ":" + data)) && Blockmoreplayerusingblockenabled ){
+			if (functions.InArray(mgr.onePlayerBlocks,(id + ":" + data)) && mgr.Blockmoreplayerusingblockenabled ){
 				Location location = event.getClickedBlock().getLocation();
 				Player player = event.getPlayer();
 				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player.getName())){
@@ -79,7 +72,7 @@ public class events implements Listener {
 			}
 			
 			//EXPBLOCKER
-			if (functions.InArray(illegalexprewardenabledblocks, (id +":" + data ) ) && blockillegalexprewardenabled){
+			if (functions.InArray(mgr.illegalexprewardenabledblocks, (id +":" + data ) ) && mgr.blockillegalexprewardenabled){
 				Player player = event.getPlayer();
 				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(id, data, player.getLocation());
 				playerusingblock.put(player.getName(), blockPlocation);				
@@ -101,12 +94,13 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void PlayerExpChangeEvent (PlayerExpChangeEvent event){
+		EventConfig mgr = manager.geteventconfig();
 		//EXPBLOCKER
 		Player player = event.getPlayer();
-		if (maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
+		if (mgr.maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
 				
 			String block = playerusingblock.get(player.getName()).getblock();
-			if (functions.InArray(illegalexprewardenabledblocks, block )){
+			if (functions.InArray(mgr.illegalexprewardenabledblocks, block )){
 				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
 				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.equalsIgnoreCase("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
 				event.setAmount(0);
@@ -140,6 +134,8 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerMoveEvent(PlayerMoveEvent event) {
+		
+		
 		Player player = event.getPlayer();
 		
 		if (playerusingblock.containsKey(player.getName()) && 
