@@ -13,12 +13,14 @@ import thomas15v.functions;
 
 public class manager {
 
+
 	
 	public static manager instance;
 	
 	static WorldGuardConfig worldGuardConfig;
 	static EventConfig eventConfig;
 	static File datafolder;
+
 
 	
 	
