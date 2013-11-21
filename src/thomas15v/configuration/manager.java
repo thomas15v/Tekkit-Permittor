@@ -12,6 +12,9 @@ import thomas15v.functions;
 import thomas15v.main;
 
 public class manager {
+	
+	public static manager instance;
+	
 	main plugin = null;
 	WorldGuardConfig worldGuardConfig = null;
 	EventConfig eventConfig = null;

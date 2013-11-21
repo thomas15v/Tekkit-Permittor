@@ -15,7 +15,6 @@ import thomas15v.configuration.manager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
-	
 	manager mgr = null;
 	
 	@Override

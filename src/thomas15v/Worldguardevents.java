@@ -19,6 +19,9 @@ import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 public class Worldguardevents implements Listener {
 	
+	
+	
+	
 	main plugin = null;
 	
 	WorldGuardPlugin worldguard;
@@ -32,8 +35,7 @@ public class Worldguardevents implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	void PlayerInteractEvent(PlayerInteractEvent event){
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
-			
-			
+		
 			
 			Player player = event.getPlayer();
 			Block block = event.getClickedBlock();
