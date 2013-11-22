@@ -75,6 +75,7 @@ public class manager {
 		    	worldGuardConfig.tools = functions.StringToIntArray(Config.getString("Protection.tools"));
 		    	worldGuardConfig.alwaysblockedtools = functions.StringToIntArray(Config.getString("Protection.alwaysblockedtools"));
 		    	worldGuardConfig.Containerblocks = functions.StringToIntArray(Config.getString("Protection.Containerblocks"));
+		    	worldGuardConfig.alwaysblockedblocks = functions.StringToIntArray(Config.getString("Protection.alwaysblockedblocks"));
 		    	worldGuardConfig.UseBlocks = functions.StringToIntArray(Config.getString("Protection.UseBlocks"));
 		    	
 		    	eventConfig = new EventConfig();

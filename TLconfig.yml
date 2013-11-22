@@ -27,6 +27,8 @@ Protection:
   tools: 30119,30124,5582,5587,20257,20259,27003,27002,19297
   #Define tools that are dangerous and never should be used in a region
   alwaysblockedtools: 19263,4363,4364,19261,30208,30215,30131
+  #Define blocks that are dangerous and never should be used in a region
+  alwaysblockedblocks: 237,46
   #define blocks that acts like chests and machines
   Containerblocks: 192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223
   #Defines trading blocks that are allowed to use in every region (same as enderchest)

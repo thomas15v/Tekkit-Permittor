@@ -4,19 +4,24 @@ package thomas15v;
 public class functions {
 
 	public static boolean InArray(int[] array, int value){
-		for (int i : array) {
-			if (i == value) return true;
-		}
-		return false;
+		if (array.length > 0){
+			for (int i : array) {
+				if (i == value) return true;
+			}
+		} 
+		return false;	
+		
 	}
 	
 	public static boolean InArray(String[] array, String value){
-		String bettervalue = value;
-		for (String i : array) {
-			
-			if (!i.contains(":"))bettervalue = value.split(":")[0];
-			else bettervalue = value;
-			if (i.trim().equalsIgnoreCase(bettervalue)) return true;
+		if (array.length > 0){
+			String bettervalue = value;
+			for (String i : array) {
+				
+				if (!i.contains(":"))bettervalue = value.split(":")[0];
+				else bettervalue = value;
+				if (i.trim().equalsIgnoreCase(bettervalue)) return true;
+			}
 		}
 		return false;
 	}

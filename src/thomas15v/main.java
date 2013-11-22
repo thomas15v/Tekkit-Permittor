@@ -134,17 +134,16 @@ public class main extends JavaPlugin {
                             }
 						}
 					}
+			
 				}
 				sender.sendMessage(replacedquarrys + " Quarry's replaced");
 				return true;
 				
-			}
-			
+			}		
 		}
 		
 		return false;
 	}
-	
 	 /*
      * this copy(); method copies the specified file from your jar
      *     to your /plugins/<pluginName>/ folder

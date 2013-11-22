@@ -32,11 +32,9 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
-		EventConfig mgr = manager.geteventconfig();
-		
-		int block = event.getBlock().getTypeId();
-		
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
+			EventConfig mgr = manager.geteventconfig();
+			int block = event.getBlock().getTypeId();
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
 			if (functions.InArray(mgr.noplaceblock, block)){
