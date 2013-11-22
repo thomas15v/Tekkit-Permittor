@@ -58,7 +58,7 @@ public class events implements Listener {
 			int id = block.getTypeId();
 					
 			//multiple block use blocking
-			if (functions.InArray(mgr.onePlayerBlocks,(id + ":" + data)) && mgr.Blockmoreplayerusingblockenabled ){
+			if (functions.InBlockInfoArray(mgr.onePlayerBlocks ,block) && mgr.Blockmoreplayerusingblockenabled ){
 				Location location = event.getClickedBlock().getLocation();
 				Player player = event.getPlayer();
 				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player.getName())){
@@ -70,7 +70,7 @@ public class events implements Listener {
 			}
 			
 			//EXPBLOCKER
-			if (functions.InArray(mgr.illegalexprewardenabledblocks, (id +":" + data ) ) && mgr.blockillegalexprewardenabled){
+			if (functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block) && mgr.blockillegalexprewardenabled){
 				Player player = event.getPlayer();
 				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(id, data, player.getLocation());
 				playerusingblock.put(player.getName(), blockPlocation);				

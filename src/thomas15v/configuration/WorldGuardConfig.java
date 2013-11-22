@@ -1,10 +1,12 @@
 package thomas15v.configuration;
 
+import thomas15v.BlockInfo;
+
 public class WorldGuardConfig {
-	public int[] wrenches;
-	public int[] tools;
-	public int[] alwaysblockedtools;
-	public int[] alwaysblockedblocks;
-	public int [] Containerblocks;
-	public int [] UseBlocks;
+	public BlockInfo[] wrenches;
+	public BlockInfo[] tools;
+	public BlockInfo[] alwaysblockedtools;
+	public BlockInfo[] alwaysblockedblocks;
+	public BlockInfo[] Containerblocks;
+	public BlockInfo[] UseBlocks;
 }

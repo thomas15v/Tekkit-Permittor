@@ -1,5 +1,7 @@
 package thomas15v;
 
+import org.bukkit.block.Block;
+
 
 public class functions {
 
@@ -13,7 +15,7 @@ public class functions {
 		
 	}
 	
-	public static boolean InArray(String[] array, String value){
+	boolean InArray(String[] array, String value){
 		if (array.length > 0){
 			String bettervalue = value;
 			for (String i : array) {
@@ -36,5 +38,23 @@ public class functions {
 			count++;
 		}
 		return returnvalue;
+	}
+	
+	public static boolean InBlockInfoArray(BlockInfo[] blocks, Block block){
+		for (BlockInfo b : blocks){
+			if (b.equals(block)) return true;
+		}
+		return false;
+	}
+	
+	public static BlockInfo[] StringToBlockInfo(String value){
+		String[] array = value.split(",");
+		BlockInfo[] blockInfo = new BlockInfo[array.length];
+		int count = 0;
+		for (String i : array) {
+			blockInfo[count] = new BlockInfo(i.trim());
+			count++;
+		}
+		return blockInfo;	
 	}
 }

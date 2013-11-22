@@ -8,6 +8,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import thomas15v.BlockInfo;
 import thomas15v.functions;
 
 public class manager {
@@ -24,6 +25,7 @@ public class manager {
 	static FileConfiguration Config;
 	
 	static boolean forgottenrecipeenabled;
+	static BlockInfo[] Chunkloadersids;
 	
 	
 	public static void setdatafolder(File folder){
@@ -71,26 +73,27 @@ public class manager {
 				
 				worldGuardConfig = new WorldGuardConfig();
 				
-		    	worldGuardConfig.wrenches = functions.StringToIntArray(Config.getString("Protection.wrenches"));
-		    	worldGuardConfig.tools = functions.StringToIntArray(Config.getString("Protection.tools"));
-		    	worldGuardConfig.alwaysblockedtools = functions.StringToIntArray(Config.getString("Protection.alwaysblockedtools"));
-		    	worldGuardConfig.Containerblocks = functions.StringToIntArray(Config.getString("Protection.Containerblocks"));
-		    	worldGuardConfig.alwaysblockedblocks = functions.StringToIntArray(Config.getString("Protection.alwaysblockedblocks"));
-		    	worldGuardConfig.UseBlocks = functions.StringToIntArray(Config.getString("Protection.UseBlocks"));
+		    	worldGuardConfig.wrenches = functions.StringToBlockInfo(Config.getString("Protection.wrenches"));
+		    	worldGuardConfig.tools = functions.StringToBlockInfo(Config.getString("Protection.tools"));
+		    	worldGuardConfig.alwaysblockedtools = functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedtools"));
+		    	worldGuardConfig.Containerblocks = functions.StringToBlockInfo(Config.getString("Protection.Containerblocks"));
+		    	worldGuardConfig.alwaysblockedblocks = functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedblocks"));
+		    	worldGuardConfig.UseBlocks = functions.StringToBlockInfo(Config.getString("Protection.UseBlocks"));
 		    	
 		    	eventConfig = new EventConfig();
 		    	
-		    	eventConfig.noplaceblock = functions.StringToIntArray(Config.getString("block-Mod-block-place.blocks"));
+		    	eventConfig.noplaceblock = functions.StringToBlockInfo(Config.getString("block-Mod-block-place.blocks"));
 		    	eventConfig.Modblockplaceenabled = Config.getBoolean("block-Mod-block-place.enabled");
 				
-		    	eventConfig.onePlayerBlocks = Config.getString("Block-moreplayer-using-block.blocks").split(",");
+		    	eventConfig.onePlayerBlocks = functions.StringToBlockInfo(Config.getString("Block-moreplayer-using-block.blocks"));
 		    	eventConfig.Blockmoreplayerusingblockenabled = Config.getBoolean("Block-moreplayer-using-block.enabled");
 				
 		    	eventConfig.blockillegalexprewardenabled = Config.getBoolean("block-illegal-exp-reward.enabled");
-		    	eventConfig.illegalexprewardenabledblocks = Config.getString("block-illegal-exp-reward.blocks").split(",");
+		    	eventConfig.illegalexprewardenabledblocks = functions.StringToBlockInfo(Config.getString("block-illegal-exp-reward.blocks"));
 		    	eventConfig.maxexp = Config.getInt("block-illegal-exp-reward.maxexp");
 		    	
 		    	forgottenrecipeenabled = Config.getBoolean("Add_forgoten_recipe");
+		    	Chunkloadersids = functions.StringToBlockInfo(Config.getString("Chunksloaders"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,6 +105,10 @@ public class manager {
 				e.printStackTrace();
 			}		
 		}
+	}
+	
+	public static BlockInfo[] Getchunkloadersids(){
+		return Chunkloadersids;
 	}
 	
 	public static WorldGuardConfig getworldguardConfig(){

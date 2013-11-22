@@ -7,11 +7,8 @@ import java.io.OutputStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -111,34 +108,27 @@ public class main extends JavaPlugin {
 				return true;						
 			}
 			else if (args[0].equalsIgnoreCase("unloadforcedchunks") && args.length > 0){
-				int replacedquarrys = 0;
+				
+			
 				for (World w : getServer().getWorlds()){
 					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
-					for (Chunk c : w.getLoadedChunks()){
-						for (int x = 0; x < 16; x++){
-                            for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
-                            {
-                                    for(int z = 0; z < 16; z++)
-                                    {
-                                    	 Block block = c.getBlock(x, y, z);
-               
-                                    	 if (block.getTypeId() == 153){
-                                    		 replacedquarrys++;
-                                    		 sender.sendMessage(ChatColor.GREEN + "Quarry found on " + block.getX() + " " + block.getY() + " " + block.getZ());
-                                    		 block.breakNaturally(new ItemStack(0,0));
-                                    		 block.setType(Material.CHEST);
-                                    		 Chest chest = (Chest) block.getState();
-                                    		 chest.getInventory().addItem(new ItemStack(153,1));                                   		 
-                                    	 }
-                                    }
-                            }
-						}
-					}
-			
+					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
+					worldModifyer.Replaceallblocks(153);
 				}
-				sender.sendMessage(replacedquarrys + " Quarry's replaced");
-				return true;
 				
+				return true;
+			}		
+			
+			else if (args[0].equalsIgnoreCase("checkforcedchunks") && args.length > 0){
+				
+				
+				for (World w : getServer().getWorlds()){
+					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
+					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
+					worldModifyer.logblocks(manager.Getchunkloadersids());
+				}
+				
+				return true;
 			}		
 		}
 		
