@@ -84,7 +84,7 @@ public class Worldguardevents implements Listener {
 		Block block = event.getBlock();
 		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 		Boolean inarea =  region.iterator().hasNext();
-		if (inarea && (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") )){
+		if (inarea && (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]"))){
 			event.setCancelled(true);			
 		}		
 		
@@ -99,7 +99,7 @@ public class Worldguardevents implements Listener {
 		Block block = event.getBlock();
 		ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
 		Boolean inarea =  region.iterator().hasNext();
-		if (inarea && (event.getPlayer().getName().equalsIgnoreCase("[RedPower]") || event.getPlayer().getName().equalsIgnoreCase("[computercraft]") )){
+		if (inarea && (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]") )){
 			event.setCancelled(true);			
 		}		
 		
