@@ -25,58 +25,43 @@ import thomas15v.configuration.manager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class main extends JavaPlugin {
+
+	boolean eventsloaded = false;
 	
 	@Override
 	public void onEnable() {
 		loadConfiguration();
-		
 	}
 	
 	void forgotenrecipes(){
-
 		ShapedRecipe factorizationconsumer = new ShapedRecipe(new ItemStack(2855 ,1));
 		factorizationconsumer.shape(new String[] {"G G"," F ","G G"});
 		factorizationconsumer.setIngredient('G', Material.GOLD_INGOT);
 		factorizationconsumer.setIngredient('F', new MaterialData(2050, (byte) 22));
 		getServer().addRecipe(factorizationconsumer);
 		getServer().addRecipe(factorizationconsumer);		
-
 	}
 	
 	public void loadConfiguration(){
 		manager.setdatafolder(getDataFolder());
 		if (manager.ConfigFileExist()){
 			manager.reload();
-			//if (getConfig().getBoolean("Add_forgoten_recipe")) forgotenrecipes();	
+			if (manager.getforgottenrecipeenabled()) forgotenrecipes();	
 			Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
-			//launchevents();
+			launchevents();
 			Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
 			loadWorldGuardsupport();
 			Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
+			eventsloaded = true;
 		}
 		else{
+			getDataFolder().mkdirs();
 			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");			
-		}
-		
-
-		
-		
-
-		
+		}		
 	}
 	
 	public void launchevents(){
-		events Events = new events();
-		Events.noplaceblock = functions.StringToIntArray(getConfig().getString("block-Mod-block-place.blocks"));
-		Events.Modblockplaceenabled = getConfig().getBoolean("block-Mod-block-place.enabled");
-		
-		Events.onePlayerBlocks = getConfig().getString("Block-moreplayer-using-block.blocks").split(",");
-		Events.Blockmoreplayerusingblockenabled = getConfig().getBoolean("Block-moreplayer-using-block.enabled");
-		
-		Events.blockillegalexprewardenabled = getConfig().getBoolean("block-illegal-exp-reward.enabled");
-		Events.illegalexprewardenabledblocks = getConfig().getString("block-illegal-exp-reward.blocks").split(",");
-		Events.maxexp = getConfig().getInt("block-illegal-exp-reward.maxexp");
-		
+		events Events = new events();		
 		getServer().getPluginManager().registerEvents(Events, this);
 	}
 	
@@ -104,13 +89,23 @@ public class main extends JavaPlugin {
 			else if (args[0].equalsIgnoreCase("choicedefault") && args.length > 1){
 				
 				if (!manager.ConfigFileExist()){
-					copy(getResource("config/" + args[1].toLowerCase() +"config"), manager.GetConfigFile());
-					manager.reload();
-					sender.sendMessage(ChatColor.DARK_GREEN + "You Written the default configuration file");
+					try{
+						copy(getResource(args[1].toUpperCase() +"config.yml"), manager.GetConfigFile());
+						manager.reload();
+						sender.sendMessage(ChatColor.DARK_GREEN + "You Written the default configuration file");
+					}
+					catch (Exception e){
+						sender.sendMessage(ChatColor.DARK_RED + "This configuration file isn't found!");
+					}
+					
 				}
 				else{
 					sender.sendMessage(ChatColor.RED + "Their is already an configuration file!");
 					sender.sendMessage(ChatColor.RED + "Delete The old one, before executing this command");
+				}
+				
+				if (!eventsloaded){
+					loadConfiguration();
 				}
 				
 				return true;						
@@ -154,9 +149,10 @@ public class main extends JavaPlugin {
      * this copy(); method copies the specified file from your jar
      *     to your /plugins/<pluginName>/ folder
      */
-    private void copy(InputStream in, File file) {
+    private void copy(InputStream in, File file) throws Exception {
+    	OutputStream out = new FileOutputStream(file);
         try {
-            OutputStream out = new FileOutputStream(file);
+            
             byte[] buf = new byte[1024];
             int len;
             while((len=in.read(buf))>0){
@@ -165,7 +161,10 @@ public class main extends JavaPlugin {
             out.close();
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+        	in.close();
+        	out.close();
+            throw new Exception();
+            
         }
     }
 	

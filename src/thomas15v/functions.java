@@ -1,9 +1,6 @@
 package thomas15v;
 
 
-
-
-
 public class functions {
 
 	public static boolean InArray(int[] array, int value){
