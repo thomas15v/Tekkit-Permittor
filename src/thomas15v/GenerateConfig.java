@@ -2,7 +2,7 @@ package thomas15v;
 
 import org.bukkit.plugin.Plugin;
 
-public class generateconfig {
+public class GenerateConfig {
 	
 
 	public static void ForTM(Plugin plugin){

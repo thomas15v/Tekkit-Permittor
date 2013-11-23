@@ -6,7 +6,6 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,10 +20,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import thomas15v.configuration.EventConfig;
-import thomas15v.configuration.manager;
+import thomas15v.configuration.Manager;
 
 
-public class events implements Listener {
+public class Events implements Listener {
 	
 	public Map<String,Location> OnePlayerBlocksUsed = new HashMap<String,Location>();
 	public Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
@@ -32,11 +31,11 @@ public class events implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
-			EventConfig mgr = manager.geteventconfig();
+			EventConfig mgr = Manager.geteventconfig();
 			Block block = event.getBlock();
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
-			if (functions.InBlockInfoArray(mgr.noplaceblock, block)){
+			if (Functions.InBlockInfoArray(mgr.noplaceblock, block)){
 				Bukkit.getLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);
 			}
@@ -45,18 +44,14 @@ public class events implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerInteractEvent(PlayerInteractEvent event) {
-		EventConfig mgr = manager.geteventconfig();
+		EventConfig mgr = Manager.geteventconfig();
 		
 		removeplayeroutlist(event.getPlayer());
 		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK){
-			
 			Block block = event.getClickedBlock();
-			int data = block.getData();
-			int id = block.getTypeId();
-					
 			//multiple block use blocking
-			if (functions.InBlockInfoArray(mgr.onePlayerBlocks ,block) && mgr.Blockmoreplayerusingblockenabled ){
+			if (Functions.InBlockInfoArray(mgr.onePlayerBlocks ,block) && mgr.Blockmoreplayerusingblockenabled ){
 				Location location = event.getClickedBlock().getLocation();
 				Player player = event.getPlayer();
 				if (OnePlayerBlocksUsed.containsValue(location) && !OnePlayerBlocksUsed.containsKey(player.getName())){
@@ -68,25 +63,24 @@ public class events implements Listener {
 			}
 			
 			//EXPBLOCKER
-			if (functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block) && mgr.blockillegalexprewardenabled){
+			if (Functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block) && mgr.blockillegalexprewardenabled){
 				Player player = event.getPlayer();
-				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(id, data, player.getLocation());
-				playerusingblock.put(player.getName(), blockPlocation);				
+				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(block, player.getLocation());
+				playerusingblock.put(player.getName(), blockPlocation);		
 			}
 		}
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void PlayerExpChangeEvent (PlayerExpChangeEvent event){
-		EventConfig mgr = manager.geteventconfig();
+		EventConfig mgr = Manager.geteventconfig();
 		//EXPBLOCKER
 		Player player = event.getPlayer();
 		if (mgr.maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
 				
-			BlockInfo block = new BlockInfo(playerusingblock.get(player.getName()).getblock());
-			if (functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block )){
+			Block block = playerusingblock.get(player.getName()).getblock();
+			if (Functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block )){
 				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
-				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.Equals("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
 				event.setAmount(0);
 			}
 		

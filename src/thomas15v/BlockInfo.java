@@ -26,9 +26,10 @@ public class BlockInfo {
 	}
 	
 	public boolean Equals(Block block){
-		TekkitPermittor.logger.info(id + " = " + block.getTypeId() + "  " + subid + " = " + block.getData());
 		if (subidincluded){
-			return block.getTypeId() == id & block.getData() == subid;
+			
+			TekkitPermittor.logger.info(block.getTypeId() + " " + id  + " " + block.getData() + " " + subid);
+			return block.getTypeId() == id && block.getData() == subid;
 		}
 		else{
 			return block.getTypeId() == id;
@@ -39,7 +40,7 @@ public class BlockInfo {
 	public boolean Equals(String block){
 		if (subidincluded){
 			if (block.contains(":")){
-				return Integer.parseInt(block.split(":")[0]) == id & Byte.parseByte(block.split(":")[1]) == subid;
+				return Integer.parseInt(block.split(":")[0]) == id && Byte.parseByte(block.split(":")[1]) == subid;
 			}
 			else{
 				return Integer.parseInt(block.split(":")[0]) == id;
@@ -58,7 +59,7 @@ public class BlockInfo {
 	
 	public boolean Equals(ItemStack block){
 		if (subidincluded){
-			return block.getTypeId() == id & block.getData().getData() == subid;
+			return block.getTypeId() == id && block.getData().getData() == subid;
 		}
 		else{
 			return block.getTypeId() == id;

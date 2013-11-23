@@ -18,7 +18,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import thomas15v.configuration.manager;
+import thomas15v.configuration.Manager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -26,12 +26,16 @@ public class TekkitPermittor extends JavaPlugin {
 
 	boolean eventsloaded = false;
 	
-	public static Logger logger;
+	static Logger logger;
 	
 	@Override
 	public void onEnable() {
 		logger = getLogger();
 		loadConfiguration();
+	}
+	
+	public Logger GetLogger() {
+		return logger;		
 	}
 	
 	void forgotenrecipes(){
@@ -44,25 +48,25 @@ public class TekkitPermittor extends JavaPlugin {
 	}
 	
 	public void loadConfiguration(){
-		manager.setdatafolder(getDataFolder());
-		if (manager.ConfigFileExist()){
-			manager.reload();
-			if (manager.getforgottenrecipeenabled()) forgotenrecipes();	
-			Bukkit.getLogger().info("[Tekkit Permitor] configuration loaded!");
+		Manager.setdatafolder(getDataFolder());
+		if (Manager.ConfigFileExist()){
+			Manager.reload();
+			if (Manager.getforgottenrecipeenabled()) forgotenrecipes();	
+			getLogger().info("configuration loaded!");
 			launchevents();
-			Bukkit.getLogger().info("[Tekkit Permitor] events loaded!");
+			getLogger().info("events loaded!");
 			loadWorldGuardsupport();
-			Bukkit.getLogger().info("[Tekkit Permitor] loaded!");
+			getLogger().info("loaded!");
 			eventsloaded = true;
 		}
 		else{
 			getDataFolder().mkdirs();
-			getLogger().info("[Tekkit permittor] ERROR no config file do /tep choicedefault <TM|TL|B>");			
+			getLogger().info("ERROR no config file do /tep choicedefault <TM|TL|B>");			
 		}		
 	}
 	
 	public void launchevents(){
-		events Events = new events();		
+		Events Events = new Events();		
 		getServer().getPluginManager().registerEvents(Events, this);
 	}
 	
@@ -71,7 +75,7 @@ public class TekkitPermittor extends JavaPlugin {
 	 
 	    // WorldGuard may not be loaded
     	 if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
- 	        Bukkit.getLogger().info("[Tekkit Permitor] No worldguard plugin founded!!!");
+ 	        getLogger().info("No worldguard plugin founded!!!");
  	    }else{
 	    	Worldguardevents worldguardevents = new Worldguardevents((WorldGuardPlugin) plugin);	    	
 	    	getServer().getPluginManager().registerEvents(worldguardevents, this);
@@ -83,16 +87,16 @@ public class TekkitPermittor extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().equalsIgnoreCase("tep") && args.length > 0){ 
 			if (args[0].equalsIgnoreCase("reload")) {
-				manager.reload();
+				Manager.reload();
 				sender.sendMessage(ChatColor.GREEN + "Reload Complete!");
 				return true;
 			}
 			else if (args[0].equalsIgnoreCase("choicedefault") && args.length > 1){
 				
-				if (!manager.ConfigFileExist()){
+				if (!Manager.ConfigFileExist()){
 					try{
-						copy(getResource(args[1].toUpperCase() +"config.yml"), manager.GetConfigFile());
-						manager.reload();
+						copy(getResource(args[1].toUpperCase() +"config.yml"), Manager.GetConfigFile());
+						Manager.reload();
 						sender.sendMessage(ChatColor.DARK_GREEN + "You Written the default configuration file");
 					}
 					catch (Exception e){
@@ -116,7 +120,7 @@ public class TekkitPermittor extends JavaPlugin {
 				for (World w : getServer().getWorlds()){
 					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
-					worldModifyer.Replaceallblocks(153);
+					worldModifyer.Replaceallblocks(Manager.Getchunkloadersids());
 				}
 				
 				return true;
@@ -128,7 +132,7 @@ public class TekkitPermittor extends JavaPlugin {
 				for (World w : getServer().getWorlds()){
 					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
-					worldModifyer.logblocks(manager.Getchunkloadersids());
+					worldModifyer.logblocks(Manager.Getchunkloadersids());
 				}
 				
 				return true;

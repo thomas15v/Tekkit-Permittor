@@ -1,23 +1,23 @@
 package thomas15v;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 public class BlockidPlayerlocation {
 	Location location;
-	int id;
+	Block block;
 	int data;
 	
-	public BlockidPlayerlocation(int id, int data, Location location){
+	public BlockidPlayerlocation(Block block, Location location){
 		this.location = location;
-		this.id = id;
-		this.data = data;
+		this.block = block;
 	}
 	
 	public Location getlocation(){
 		return this.location;
 	}
 	
-	public String getblock(){
-		return id + ":" + data;
+	public Block getblock(){
+		return block;
 	}
 }

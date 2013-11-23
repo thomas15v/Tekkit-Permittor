@@ -3,7 +3,7 @@ package thomas15v;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-public class functions {
+public class Functions {
 
 	public static boolean InBlockInfoArray(BlockInfo[] blocks, Block block){
 		for (BlockInfo b : blocks){

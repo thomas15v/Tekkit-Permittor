@@ -4,6 +4,6 @@ version: 1.5
 commands:
   tep:
     description: This is a demo command.
-    usage: /tep [player]
+    usage: /
     permission: tekkitpermittor.basic
     permission-message: You don't have tekkitpermittor.basic

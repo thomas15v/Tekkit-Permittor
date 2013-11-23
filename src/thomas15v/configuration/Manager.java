@@ -9,13 +9,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import thomas15v.BlockInfo;
-import thomas15v.functions;
+import thomas15v.Functions;
 
-public class manager {
+public class Manager {
 
 
 	
-	public static manager instance;
+	public static Manager instance;
 	
 	static WorldGuardConfig worldGuardConfig;
 	static EventConfig eventConfig;
@@ -73,27 +73,27 @@ public class manager {
 				
 				worldGuardConfig = new WorldGuardConfig();
 				
-		    	worldGuardConfig.wrenches = functions.StringToBlockInfo(Config.getString("Protection.wrenches"));
-		    	worldGuardConfig.tools = functions.StringToBlockInfo(Config.getString("Protection.tools"));
-		    	worldGuardConfig.alwaysblockedtools = functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedtools"));
-		    	worldGuardConfig.Containerblocks = functions.StringToBlockInfo(Config.getString("Protection.Containerblocks"));
-		    	worldGuardConfig.alwaysblockedblocks = functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedblocks"));
-		    	worldGuardConfig.UseBlocks = functions.StringToBlockInfo(Config.getString("Protection.UseBlocks"));
+		    	worldGuardConfig.wrenches = Functions.StringToBlockInfo(Config.getString("Protection.wrenches"));
+		    	worldGuardConfig.tools = Functions.StringToBlockInfo(Config.getString("Protection.tools"));
+		    	worldGuardConfig.alwaysblockedtools = Functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedtools"));
+		    	worldGuardConfig.Containerblocks = Functions.StringToBlockInfo(Config.getString("Protection.Containerblocks"));
+		    	worldGuardConfig.alwaysblockedblocks = Functions.StringToBlockInfo(Config.getString("Protection.alwaysblockedblocks"));
+		    	worldGuardConfig.UseBlocks = Functions.StringToBlockInfo(Config.getString("Protection.UseBlocks"));
 		    	
 		    	eventConfig = new EventConfig();
 		    	
-		    	eventConfig.noplaceblock = functions.StringToBlockInfo(Config.getString("block-Mod-block-place.blocks"));
+		    	eventConfig.noplaceblock = Functions.StringToBlockInfo(Config.getString("block-Mod-block-place.blocks"));
 		    	eventConfig.Modblockplaceenabled = Config.getBoolean("block-Mod-block-place.enabled");
 				
-		    	eventConfig.onePlayerBlocks = functions.StringToBlockInfo(Config.getString("Block-moreplayer-using-block.blocks"));
+		    	eventConfig.onePlayerBlocks = Functions.StringToBlockInfo(Config.getString("Block-moreplayer-using-block.blocks"));
 		    	eventConfig.Blockmoreplayerusingblockenabled = Config.getBoolean("Block-moreplayer-using-block.enabled");
 				
 		    	eventConfig.blockillegalexprewardenabled = Config.getBoolean("block-illegal-exp-reward.enabled");
-		    	eventConfig.illegalexprewardenabledblocks = functions.StringToBlockInfo(Config.getString("block-illegal-exp-reward.blocks"));
+		    	eventConfig.illegalexprewardenabledblocks = Functions.StringToBlockInfo(Config.getString("block-illegal-exp-reward.blocks"));
 		    	eventConfig.maxexp = Config.getInt("block-illegal-exp-reward.maxexp");
 		    	
 		    	forgottenrecipeenabled = Config.getBoolean("Add_forgoten_recipe");
-		    	Chunkloadersids = functions.StringToBlockInfo(Config.getString("Chunksloaders"));
+		    	Chunkloadersids = Functions.StringToBlockInfo(Config.getString("Chunksloaders"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
