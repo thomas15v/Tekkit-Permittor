@@ -1,46 +1,25 @@
 package thomas15v;
 
 import org.bukkit.block.Block;
-
+import org.bukkit.inventory.ItemStack;
 
 public class functions {
 
-	public static boolean InArray(int[] array, int value){
-		if (array.length > 0){
-			for (int i : array) {
-				if (i == value) return true;
-			}
-		} 
-		return false;	
-		
-	}
-	
-	boolean InArray(String[] array, String value){
-		if (array.length > 0){
-			String bettervalue = value;
-			for (String i : array) {
-				
-				if (!i.contains(":"))bettervalue = value.split(":")[0];
-				else bettervalue = value;
-				if (i.trim().equalsIgnoreCase(bettervalue)) return true;
-			}
+	public static boolean InBlockInfoArray(BlockInfo[] blocks, Block block){
+		for (BlockInfo b : blocks){
+			if (b.Equals(block)) return true;
 		}
 		return false;
 	}
 	
-	public static int[] StringToIntArray(String value){
-		String[] array = value.split(",");
-		int[] returnvalue = new int[array.length];
-		
-		int count = 0;
-		for (String i : array) {
-			returnvalue[count] = Integer.parseInt(i.trim());
-			count++;
+	public static boolean InBlockInfoArray(BlockInfo[] blocks, ItemStack block){
+		for (BlockInfo b : blocks){
+			if (b.Equals(block)) return true;
 		}
-		return returnvalue;
+		return false;
 	}
 	
-	public static boolean InBlockInfoArray(BlockInfo[] blocks, Block block){
+	public static boolean InBlockInfoArray(BlockInfo[] blocks, BlockInfo block){
 		for (BlockInfo b : blocks){
 			if (b.equals(block)) return true;
 		}
@@ -48,13 +27,25 @@ public class functions {
 	}
 	
 	public static BlockInfo[] StringToBlockInfo(String value){
-		String[] array = value.split(",");
-		BlockInfo[] blockInfo = new BlockInfo[array.length];
-		int count = 0;
-		for (String i : array) {
-			blockInfo[count] = new BlockInfo(i.trim());
-			count++;
+		if (value != null){
+			if (value.contains(",")){
+				String[] array = value.split(",");
+				BlockInfo[] blockInfo = new BlockInfo[array.length];
+				int count = 0;
+				for (String i : array) {
+					blockInfo[count] = new BlockInfo(i.trim());
+					count++;
+				}
+				return blockInfo;	
+			}else{
+				BlockInfo[] blockInfo = new BlockInfo[1];
+				blockInfo[0] = new BlockInfo(value);
+				return blockInfo;
+			}	
 		}
-		return blockInfo;	
+		else {
+			BlockInfo[] blockInfo = new BlockInfo[0];
+			return blockInfo;
+		}	
 	}
 }

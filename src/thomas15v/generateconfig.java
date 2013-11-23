@@ -26,7 +26,6 @@ public class generateconfig {
 		
 		 plugin.getConfig().options().copyDefaults(true);
 		 plugin.saveConfig();
-		
 	}
 	
 	public static void ForTL(Plugin plugin){
@@ -48,9 +47,8 @@ public class generateconfig {
 		plugin.getConfig().addDefault("Protection.Containerblocks", "192,901,250,246,188,277,2491,207,900,181,251,3120,3131,227,751,233,2050,183,2002,30208,3893,223,763,2004,2007,2005");
 		plugin.getConfig().addDefault("Protection.UseBlocks", "255");
 		
-		 plugin.getConfig().options().copyDefaults(true);
-		 plugin.saveConfig();
-	
+		plugin.getConfig().options().copyDefaults(true);
+		plugin.saveConfig();
 	}
 	
 	public static void ForB(){

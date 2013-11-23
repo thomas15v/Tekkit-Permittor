@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,12 +22,15 @@ import thomas15v.configuration.manager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-public class main extends JavaPlugin {
+public class TekkitPermittor extends JavaPlugin {
 
 	boolean eventsloaded = false;
 	
+	public static Logger logger;
+	
 	@Override
 	public void onEnable() {
+		logger = getLogger();
 		loadConfiguration();
 	}
 	
@@ -93,8 +97,7 @@ public class main extends JavaPlugin {
 					}
 					catch (Exception e){
 						sender.sendMessage(ChatColor.DARK_RED + "This configuration file isn't found!");
-					}
-					
+					}	
 				}
 				else{
 					sender.sendMessage(ChatColor.RED + "Their is already an configuration file!");

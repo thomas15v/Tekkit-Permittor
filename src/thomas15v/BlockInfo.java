@@ -1,11 +1,13 @@
 package thomas15v;
 
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 public class BlockInfo {
 	
 	int id;
 	byte subid;
+	boolean subidincluded;
 	
 	public BlockInfo(Block block) {
 		this.id = block.getTypeId();
@@ -13,22 +15,54 @@ public class BlockInfo {
 	}
 	
 	public BlockInfo(String block) {
-		if (block.contains(":")){
+		subidincluded = block.contains(":");
+		if (subidincluded){
 			this.id = Integer.parseInt(block.split(":")[0]);
 			this.subid = Byte.parseByte(block.split(":")[1]);
 		}
 		else{
 			this.id = Integer.parseInt(block);
-			this.subid = 0;
 		}
 	}
 	
 	public boolean Equals(Block block){
-		return block.getTypeId() == id & block.getData() == subid;
-	}
+		TekkitPermittor.logger.info(id + " = " + block.getTypeId() + "  " + subid + " = " + block.getData());
+		if (subidincluded){
+			return block.getTypeId() == id & block.getData() == subid;
+		}
+		else{
+			return block.getTypeId() == id;
+		}
+		
+	}	
 	
-	public boolean EqualsIgnoreSubid(Block block){
-		return block.getTypeId() == id; 
-	}
+	public boolean Equals(String block){
+		if (subidincluded){
+			if (block.contains(":")){
+				return Integer.parseInt(block.split(":")[0]) == id & Byte.parseByte(block.split(":")[1]) == subid;
+			}
+			else{
+				return Integer.parseInt(block.split(":")[0]) == id;
+			}
+		}
+		else{
+			if (block.contains(":")){
+				return Integer.parseInt(block.split(":")[0]) == id;
+			}
+			else{
+				return Integer.parseInt(block) == id;
+			}
+		}
+		
+	}	
 	
+	public boolean Equals(ItemStack block){
+		if (subidincluded){
+			return block.getTypeId() == id & block.getData().getData() == subid;
+		}
+		else{
+			return block.getTypeId() == id;
+		}
+		
+	}
 }

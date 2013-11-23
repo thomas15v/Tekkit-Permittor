@@ -1,5 +1,5 @@
 name: Tekkit Permittor
-main: thomas15v.main
+main: thomas15v.TekkitPermittor
 version: 1.5
 commands:
   tep:

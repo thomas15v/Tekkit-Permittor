@@ -123,7 +123,7 @@ public class WorldModifyer {
                         {
                         	Block block = c.getBlock(x, y, z);
                         	 for (BlockInfo id : ids){
-	                        	 if (id.EqualsIgnoreSubid(block)){
+	                        	 if (id.Equals(block)){
 	                        		 replacedblocks++;
 	                        		 sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());                               		 
 	                        	 }

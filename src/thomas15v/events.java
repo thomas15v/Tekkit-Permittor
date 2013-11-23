@@ -14,7 +14,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -34,15 +33,14 @@ public class events implements Listener {
 	public void BlockPlaceEvent(BlockPlaceEvent event){
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
 			EventConfig mgr = manager.geteventconfig();
-			int block = event.getBlock().getTypeId();
+			Block block = event.getBlock();
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
-			if (functions.InArray(mgr.noplaceblock, block)){
+			if (functions.InBlockInfoArray(mgr.noplaceblock, block)){
 				Bukkit.getLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);
 			}
-		}		
-		
+		}			
 	}	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -75,20 +73,8 @@ public class events implements Listener {
 				BlockidPlayerlocation blockPlocation = new BlockidPlayerlocation(id, data, player.getLocation());
 				playerusingblock.put(player.getName(), blockPlocation);				
 			}
-			
-			/**Bukkit.getLogger().info(event.getClickedBlock().getTypeId() + "");
-			/*
-			if (event.getClickedBlock().getTypeId() == 188 && event.getClickedBlock().getData() == 2 && event.getPlayer().getItemInHand().getTypeId() == 21257){
-				event.getClickedBlock().setTypeId(2051);
-				ItemStack item = new ItemStack(188 , 1, (short) 0 ,(byte) 2);
-				event.getPlayer().getInventory().addItem(item);
-				event.setCancelled(true);
-			}
-			**/
 		}
     }
-	
-	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void PlayerExpChangeEvent (PlayerExpChangeEvent event){
@@ -97,39 +83,16 @@ public class events implements Listener {
 		Player player = event.getPlayer();
 		if (mgr.maxexp < event.getAmount() && playerusingblock.containsKey(player.getName())){
 				
-			String block = playerusingblock.get(player.getName()).getblock();
-			if (functions.InArray(mgr.illegalexprewardenabledblocks, block )){
+			BlockInfo block = new BlockInfo(playerusingblock.get(player.getName()).getblock());
+			if (functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block )){
 				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
-				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.equalsIgnoreCase("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
+				if (player.getItemOnCursor().getType().equals(Material.DIAMOND) && !block.Equals("188:1")) player.kickPlayer("No exphacking allowed here");//LOOL KICK THOSE CHEATERS :D
 				event.setAmount(0);
 			}
 		
-		}
-		
-		
-		
+		}		
 	}
-	
-	/*
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.HIGHEST)
-	void BlockBreakEvent(BlockBreakEvent event){
 		
-		if (event.getBlock().getTypeId() == 188 && event.getBlock().getData() == 2){
-			event.setCancelled(true);
-			event.getBlock().setTypeIdAndData(0 ,(byte) 0, false);
-			event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),new ItemStack(250,1,(short) 0,(byte) 12));			
-		}
-		
-		
-	}
-	*/
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void InventoryClickEvent(InventoryClickEvent event) {
-		//Bukkit.getLogger().info(event.getInventory().getName());
-    }
-	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void PlayerMoveEvent(PlayerMoveEvent event) {
 		
@@ -159,7 +122,6 @@ public class events implements Listener {
 	public void PlayerKickEvent(PlayerKickEvent event){
 		removeplayeroutlist(event.getPlayer());
 	}
-	
 	
 	void removeplayeroutlist(Player player){
 		if (OnePlayerBlocksUsed.containsKey(player.getName())) OnePlayerBlocksUsed.remove(player);
