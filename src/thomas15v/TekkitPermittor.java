@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -28,14 +27,14 @@ public class TekkitPermittor extends JavaPlugin {
 	
 	static Logger logger;
 	
+	static public Logger GetLogger() {
+		return logger;		
+	}
+	
 	@Override
 	public void onEnable() {
 		logger = getLogger();
 		loadConfiguration();
-	}
-	
-	public Logger GetLogger() {
-		return logger;		
 	}
 	
 	void forgotenrecipes(){

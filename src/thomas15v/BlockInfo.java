@@ -27,8 +27,6 @@ public class BlockInfo {
 	
 	public boolean Equals(Block block){
 		if (subidincluded){
-			
-			TekkitPermittor.logger.info(block.getTypeId() + " " + id  + " " + block.getData() + " " + subid);
 			return block.getTypeId() == id && block.getData() == subid;
 		}
 		else{

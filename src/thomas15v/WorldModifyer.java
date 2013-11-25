@@ -50,6 +50,7 @@ public class WorldModifyer {
 	public void logblocks(BlockInfo[] ids){
 		int replacedblocks = 0;
 		for (Chunk c : world.getLoadedChunks()){
+			
 			for (int x = 0; x < 16; x++){
                 for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
                 {
@@ -59,7 +60,9 @@ public class WorldModifyer {
                         	 for (BlockInfo id : ids){
 	                        	 if (id.Equals(block)){
 	                        		 replacedblocks++;
-	                        		 sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());                               		 
+	                        		 sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());       
+	                        		 
+	                        		 
 	                        	 }
                         	 }
                         }
@@ -67,6 +70,9 @@ public class WorldModifyer {
 			}
 		}
 		sender.sendMessage(ChatColor.DARK_GREEN + "" + replacedblocks + " Chunkloaders found in world " + world.getName());
+		
+		
+		
 	}
 	
 }

@@ -3,7 +3,12 @@ main: thomas15v.TekkitPermittor
 version: 1.5
 commands:
   tep:
-    description: This is a demo command.
-    usage: /
-    permission: tekkitpermittor.basic
-    permission-message: You don't have tekkitpermittor.basic
+    description: Tekkit Permittor adminstration command
+    permission: tekkitpermittor.command
+    permission-message: You don't have tekkitpermittor.command
+    usage: |
+       /tep reload - Reloads Tekkit Permittor
+       /tep choicedefault [B|TL|TM]
+       /tep checkforcedchunks - Check for chunk loaders in loaded chunks
+       /tep unloadforcedchunks - unload the forcedchunks by replacing the chunkloader by a chest containing the chunkloader"
+    

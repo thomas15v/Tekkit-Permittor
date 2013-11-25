@@ -36,7 +36,7 @@ public class Events implements Listener {
 			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
 			
 			if (Functions.InBlockInfoArray(mgr.noplaceblock, block)){
-				Bukkit.getLogger().info("Job abusing exploit blocked");
+				TekkitPermittor.GetLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);
 			}
 		}			
@@ -80,7 +80,7 @@ public class Events implements Listener {
 				
 			Block block = playerusingblock.get(player.getName()).getblock();
 			if (Functions.InBlockInfoArray(mgr.illegalexprewardenabledblocks, block )){
-				Bukkit.getLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
+				TekkitPermittor.GetLogger().info(player.getName() + " Took to mutch EXP from the banned exp giving blocks");
 				event.setAmount(0);
 			}
 		
@@ -94,14 +94,12 @@ public class Events implements Listener {
 		Player player = event.getPlayer();
 		
 		if (playerusingblock.containsKey(player.getName()) && 
-				(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 6 ||
-						event.getFrom().distance(event.getTo()) == (double) 0)){
+				(playerusingblock.get(player.getName()).getlocation().distance(player.getLocation()) > 5)){
 			playerusingblock.remove(player.getName());
 		}
 		
 		if (OnePlayerBlocksUsed.containsKey(player.getName()) && 
-				(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) > 6 ||
-						event.getFrom().distance(event.getTo()) == (double) 0)){
+				(OnePlayerBlocksUsed.get(player.getName()).distance(player.getLocation()) > 5)){
 			OnePlayerBlocksUsed.remove(player.getName());
 		}
 		

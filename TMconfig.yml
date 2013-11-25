@@ -1,5 +1,6 @@
 configname: Tekkit Main
 Add_forgoten_recipe: false
+Chunksloaders: 781,519,817,756
 block-Mod-block-place:
   enabled: true
   blocks: 48,56,16,15,21,73,49,14,62
