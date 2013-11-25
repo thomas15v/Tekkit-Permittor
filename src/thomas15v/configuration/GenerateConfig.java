@@ -1,4 +1,4 @@
-package thomas15v;
+package thomas15v.configuration;
 
 import org.bukkit.plugin.Plugin;
 

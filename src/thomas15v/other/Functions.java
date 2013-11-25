@@ -1,7 +1,9 @@
-package thomas15v;
+package thomas15v.other;
 
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+
+import thomas15v.info.BlockInfo;
 
 public class Functions {
 

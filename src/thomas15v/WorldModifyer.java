@@ -2,12 +2,16 @@ package thomas15v;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
+
+import thomas15v.info.BlockInfo;
 
 public class WorldModifyer {
 	
@@ -22,7 +26,23 @@ public class WorldModifyer {
 	public void Replaceallblocks(BlockInfo[] ids){
 		int replacedblocks = 0;
 		for (Chunk c : world.getLoadedChunks()){
-			for (int x = 0; x < 16; x++){
+			for (BlockState blockState : c.getTileEntities()){
+				Block block = blockState.getBlock();
+				for (BlockInfo id : ids){
+					if (id.Equals(block)){
+           			 int oldblockid = block.getTypeId();
+               		 replacedblocks++;
+               		 sender.sendMessage(ChatColor.GREEN + "Chunkloader replaced on " + block.getX() + " " + block.getY() + " " + block.getZ());
+               		 block.breakNaturally(new ItemStack(0,0));
+               		 block.setType(Material.CHEST);
+               		 Chest chest = (Chest) block.getState();
+               		 chest.getInventory().addItem(new ItemStack(oldblockid,1));                                   		 
+               	 }
+				}
+			}
+			
+			/*
+			 * for (int x = 0; x < 16; x++){
                 for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
                 {
                         for(int z = 0; z < 16; z++)
@@ -42,6 +62,7 @@ public class WorldModifyer {
                         }
                 }
 			}
+			 */
 		}
 		sender.sendMessage(replacedblocks + " Chunkloaders replaced in world " + world.getName());
 	}
@@ -50,7 +71,17 @@ public class WorldModifyer {
 	public void logblocks(BlockInfo[] ids){
 		int replacedblocks = 0;
 		for (Chunk c : world.getLoadedChunks()){
+			for (BlockState block : c.getTileEntities()){
+				for (BlockInfo id : ids){
+	               	if (id.Equals(block.getBlock())){
+	               		replacedblocks++;
+	               		sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());                      		 
+	               	}
+           	 	}
+			}
 			
+			//old and slower function
+			/*
 			for (int x = 0; x < 16; x++){
                 for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
                 {
@@ -68,11 +99,20 @@ public class WorldModifyer {
                         }
                 }
 			}
+			*/
 		}
 		sender.sendMessage(ChatColor.DARK_GREEN + "" + replacedblocks + " Chunkloaders found in world " + world.getName());
 		
-		
-		
+	}
+
+
+
+	
+	
+	public Location Getclosedblock(BlockInfo[] ids, Location location){
+		world.getLoadedChunks();
+		return null;
+		}
 	}
 	
-}
+

@@ -2,7 +2,7 @@ configname: Tekkit Litle
 #adds recipe for factorization consumer
 Add_forgoten_recipe: false
 #Place here id's for chunkloading blocks
-Chunksloaders: 153,2048,4077
+Chunksloaders: 153,2048,4077,4090
 block-Mod-block-place:
   #enable blocking blocks been placed by mods like computercraft and redpower2?
   enabled: true

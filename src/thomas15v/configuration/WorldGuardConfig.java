@@ -1,6 +1,6 @@
 package thomas15v.configuration;
 
-import thomas15v.BlockInfo;
+import thomas15v.info.BlockInfo;
 
 public class WorldGuardConfig {
 	public BlockInfo[] wrenches;

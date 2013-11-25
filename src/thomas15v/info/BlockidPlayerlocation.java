@@ -1,4 +1,4 @@
-package thomas15v;
+package thomas15v.info;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;

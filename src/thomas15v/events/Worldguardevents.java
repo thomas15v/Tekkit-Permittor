@@ -1,4 +1,4 @@
-package thomas15v;
+package thomas15v.events;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import thomas15v.configuration.WorldGuardConfig;
 import thomas15v.configuration.Manager;
+import thomas15v.other.Functions;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;

@@ -7,10 +7,12 @@ import java.io.OutputStream;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
@@ -18,6 +20,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import thomas15v.configuration.Manager;
+import thomas15v.events.Events;
+import thomas15v.events.WarnAdminevents;
+import thomas15v.events.Worldguardevents;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -60,7 +65,9 @@ public class TekkitPermittor extends JavaPlugin {
 		}
 		else{
 			getDataFolder().mkdirs();
-			getLogger().info("ERROR no config file do /tep choicedefault <TM|TL|B>");			
+			getLogger().info("ERROR no config file do /tep choicedefault <TM|TL|B>");	
+			WarnAdminevents warnAdminevents = new WarnAdminevents();
+			getServer().getPluginManager().registerEvents(warnAdminevents,this);
 		}		
 	}
 	
@@ -133,6 +140,22 @@ public class TekkitPermittor extends JavaPlugin {
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
 					worldModifyer.logblocks(Manager.Getchunkloadersids());
 				}
+				
+				return true;
+			}		
+			else if (args[0].equalsIgnoreCase("tpclosedchunkloader") && args.length > 0){
+				
+				if (sender instanceof Player){
+					Player player = (Player) sender; //Lol my first cast in this plugin :)
+					World w = player.getWorld();
+					Location location = player.getLocation();
+					
+					
+					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
+					worldModifyer.Getclosedblock(Manager.Getchunkloadersids(), location);
+					
+				}
+				
 				
 				return true;
 			}		

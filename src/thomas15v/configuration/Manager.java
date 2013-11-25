@@ -8,8 +8,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import thomas15v.BlockInfo;
-import thomas15v.Functions;
+import thomas15v.info.BlockInfo;
+import thomas15v.other.Functions;
 
 public class Manager {
 
