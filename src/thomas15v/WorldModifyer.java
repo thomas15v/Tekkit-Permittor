@@ -40,68 +40,24 @@ public class WorldModifyer {
                	 }
 				}
 			}
-			
-			/*
-			 * for (int x = 0; x < 16; x++){
-                for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
-                {
-                        for(int z = 0; z < 16; z++)
-                        {
-                        	 Block block = c.getBlock(x, y, z);
-                        	 for (BlockInfo id : ids){
-                        		 if (id.Equals(block)){
-                        			 int oldblockid = block.getTypeId();
-                            		 replacedblocks++;
-                            		 sender.sendMessage(ChatColor.GREEN + "Chunkloader replaced on " + block.getX() + " " + block.getY() + " " + block.getZ());
-                            		 block.breakNaturally(new ItemStack(0,0));
-                            		 block.setType(Material.CHEST);
-                            		 Chest chest = (Chest) block.getState();
-                            		 chest.getInventory().addItem(new ItemStack(oldblockid,1));                                   		 
-                            	 }
-                        	 }
-                        }
-                }
-			}
-			 */
 		}
 		sender.sendMessage(replacedblocks + " Chunkloaders replaced in world " + world.getName());
 	}
 	
 	
 	public void logblocks(BlockInfo[] ids){
-		int replacedblocks = 0;
+		int logedblocks = 0;
 		for (Chunk c : world.getLoadedChunks()){
 			for (BlockState block : c.getTileEntities()){
 				for (BlockInfo id : ids){
 	               	if (id.Equals(block.getBlock())){
-	               		replacedblocks++;
+	               		logedblocks++;
 	               		sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());                      		 
 	               	}
            	 	}
 			}
-			
-			//old and slower function
-			/*
-			for (int x = 0; x < 16; x++){
-                for(int y = 0; y < c.getWorld().getMaxHeight(); y++)
-                {
-                        for(int z = 0; z < 16; z++)
-                        {
-                        	Block block = c.getBlock(x, y, z);
-                        	 for (BlockInfo id : ids){
-	                        	 if (id.Equals(block)){
-	                        		 replacedblocks++;
-	                        		 sender.sendMessage(ChatColor.RED + "Chunkloader found on " + block.getX() + " " + block.getY() + " " + block.getZ());       
-	                        		 
-	                        		 
-	                        	 }
-                        	 }
-                        }
-                }
-			}
-			*/
 		}
-		sender.sendMessage(ChatColor.DARK_GREEN + "" + replacedblocks + " Chunkloaders found in world " + world.getName());
+		sender.sendMessage(ChatColor.DARK_GREEN + "" + logedblocks + " Chunkloaders found in world " + world.getName());
 		
 	}
 
@@ -110,9 +66,27 @@ public class WorldModifyer {
 	
 	
 	public Location Getclosedblock(BlockInfo[] ids, Location location){
-		world.getLoadedChunks();
-		return null;
+		Location closedblocklocation = null;
+		for (Chunk c : world.getLoadedChunks()){
+			if (c.getTileEntities().length > 0){
+				for (BlockState tile : c.getTileEntities()){
+					for (BlockInfo id : ids){
+						Block block = tile.getBlock();
+		               	if (id.Equals(block)){
+		               		if (closedblocklocation != null){
+		               			if (closedblocklocation.distance(location) > block.getLocation().distance(location) ){
+		               				closedblocklocation = block.getLocation();
+		               			}
+		               		}else{
+		               			closedblocklocation = block.getLocation();
+		               		}
+		               	}
+	           	 	}
+				}
+			}
 		}
+		return closedblocklocation;
 	}
 	
+}
 

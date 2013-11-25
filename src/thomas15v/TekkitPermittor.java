@@ -98,7 +98,6 @@ public class TekkitPermittor extends JavaPlugin {
 				return true;
 			}
 			else if (args[0].equalsIgnoreCase("choicedefault") && args.length > 1){
-				
 				if (!Manager.ConfigFileExist()){
 					try{
 						copy(getResource(args[1].toUpperCase() +"config.yml"), Manager.GetConfigFile());
@@ -121,26 +120,20 @@ public class TekkitPermittor extends JavaPlugin {
 				return true;						
 			}
 			else if (args[0].equalsIgnoreCase("unloadforcedchunks") && args.length > 0){
-				
-			
 				for (World w : getServer().getWorlds()){
 					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
 					worldModifyer.Replaceallblocks(Manager.Getchunkloadersids());
 				}
-				
 				return true;
 			}		
 			
 			else if (args[0].equalsIgnoreCase("checkforcedchunks") && args.length > 0){
-				
-				
 				for (World w : getServer().getWorlds()){
 					sender.sendMessage(ChatColor.GREEN + "Checking " + w.getName());
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
 					worldModifyer.logblocks(Manager.Getchunkloadersids());
 				}
-				
 				return true;
 			}		
 			else if (args[0].equalsIgnoreCase("tpclosedchunkloader") && args.length > 0){
@@ -150,13 +143,18 @@ public class TekkitPermittor extends JavaPlugin {
 					World w = player.getWorld();
 					Location location = player.getLocation();
 					
-					
 					WorldModifyer worldModifyer = new WorldModifyer(w, sender);
-					worldModifyer.Getclosedblock(Manager.Getchunkloadersids(), location);
+					
+					Location telportlocation = worldModifyer.Getclosedblock(Manager.Getchunkloadersids(), location);
+					if (telportlocation != null) player.teleport(telportlocation);
+					else sender.sendMessage(ChatColor.RED + "No chunkloaders found," + ChatColor.GREEN +" the world is clean");
+					
+					
 					
 				}
-				
-				
+				else{
+					sender.sendMessage("This Command has to be run as player");
+				}
 				return true;
 			}		
 		}

@@ -32,7 +32,7 @@ public class Events implements Listener {
 	public Map<String,BlockidPlayerlocation> playerusingblock = new HashMap<String,BlockidPlayerlocation>();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void BlockPlaceEvent(BlockPlaceEvent event){
+	public void BlockPlaceEvent(BlockPlaceEvent event){		
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
 			EventConfig mgr = Manager.geteventconfig();
 			Block block = event.getBlock();
