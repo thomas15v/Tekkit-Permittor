@@ -23,6 +23,7 @@ import thomas15v.configuration.Manager;
 import thomas15v.events.Events;
 import thomas15v.events.WarnAdminevents;
 import thomas15v.events.Worldguardevents;
+import thomas15v.events.CanvasBagFix;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -40,6 +41,11 @@ public class TekkitPermittor extends JavaPlugin {
 	public void onEnable() {
 		logger = getLogger();
 		loadConfiguration();
+		
+		CanvasBagFix canvasBagFix = new CanvasBagFix();
+		getServer().getPluginManager().registerEvents(canvasBagFix, this);
+		
+		
 	}
 	
 	void forgotenrecipes(){
