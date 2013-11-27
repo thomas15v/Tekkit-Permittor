@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import thomas15v.info.BlockInfo;
+import thomas15v.info.ModEnchantmentInfo;
 import thomas15v.other.Functions;
 
 public class Manager {
@@ -26,6 +27,8 @@ public class Manager {
 	
 	static boolean forgottenrecipeenabled;
 	static BlockInfo[] Chunkloadersids;
+	
+	static ModEnchantmentInfo[] modEnchantmentInfo;
 	
 	
 	public static void setdatafolder(File folder){
@@ -94,6 +97,8 @@ public class Manager {
 		    	
 		    	forgottenrecipeenabled = Config.getBoolean("Add_forgoten_recipe");
 		    	Chunkloadersids = Functions.StringToBlockInfo(Config.getString("Chunksloaders"));
+		    	
+		    	modEnchantmentInfo = Functions.stringToEnchantmentInfos(Config.getString("Banned.Enchantments"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -105,6 +110,10 @@ public class Manager {
 				e.printStackTrace();
 			}		
 		}
+	}
+	
+	public static ModEnchantmentInfo[] GetBannedEnchantments(){
+		return modEnchantmentInfo;
 	}
 	
 	public static BlockInfo[] Getchunkloadersids(){

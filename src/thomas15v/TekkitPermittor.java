@@ -20,10 +20,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import thomas15v.configuration.Manager;
+import thomas15v.events.Enchantmentbanner;
 import thomas15v.events.Events;
 import thomas15v.events.WarnAdminevents;
 import thomas15v.events.Worldguardevents;
-import thomas15v.events.CanvasBagFix;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -42,10 +42,8 @@ public class TekkitPermittor extends JavaPlugin {
 		logger = getLogger();
 		loadConfiguration();
 		
-		CanvasBagFix canvasBagFix = new CanvasBagFix();
-		getServer().getPluginManager().registerEvents(canvasBagFix, this);
-		
-		
+		Enchantmentbanner enchantmentbanner = new Enchantmentbanner();
+		getServer().getPluginManager().registerEvents(enchantmentbanner, this);
 	}
 	
 	void forgotenrecipes(){
@@ -142,7 +140,7 @@ public class TekkitPermittor extends JavaPlugin {
 				}
 				return true;
 			}		
-			else if (args[0].equalsIgnoreCase("tpclosedchunkloader") && args.length > 0){
+			else if (args[0].equalsIgnoreCase("tpclosestchunkloader") && args.length > 0){
 				
 				if (sender instanceof Player){
 					Player player = (Player) sender; //Lol my first cast in this plugin :)
