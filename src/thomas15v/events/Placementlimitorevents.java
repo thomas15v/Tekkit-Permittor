@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import thomas15v.TekkitPermittor;
 
 @SuppressWarnings("deprecation")
-public class CanvasBagFix implements Listener {
+public class Placementlimitorevents implements Listener {
 	
 	Set<String> playerusingcanvasbag = new HashSet<String>();
 	

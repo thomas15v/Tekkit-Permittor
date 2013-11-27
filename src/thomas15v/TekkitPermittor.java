@@ -23,7 +23,7 @@ import thomas15v.configuration.Manager;
 import thomas15v.events.Events;
 import thomas15v.events.WarnAdminevents;
 import thomas15v.events.Worldguardevents;
-import thomas15v.events.CanvasBagFix;
+import thomas15v.events.Placementlimitorevents;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -42,7 +42,7 @@ public class TekkitPermittor extends JavaPlugin {
 		logger = getLogger();
 		loadConfiguration();
 		
-		CanvasBagFix canvasBagFix = new CanvasBagFix();
+		Placementlimitorevents canvasBagFix = new Placementlimitorevents();
 		getServer().getPluginManager().registerEvents(canvasBagFix, this);
 		
 		
