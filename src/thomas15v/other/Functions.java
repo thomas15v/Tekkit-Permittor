@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import thomas15v.info.BlockInfo;
+import thomas15v.info.ModEnchantmentInfo;
 
 public class Functions {
 
@@ -27,7 +28,7 @@ public class Functions {
 		}
 		return false;
 	}
-	
+		
 	public static BlockInfo[] StringToBlockInfo(String value){
 		if (value != null){
 			if (value.contains(",")){
@@ -46,8 +47,28 @@ public class Functions {
 			}	
 		}
 		else {
-			BlockInfo[] blockInfo = new BlockInfo[0];
-			return blockInfo;
+			return new BlockInfo[0];
 		}	
+	}
+	
+	public static ModEnchantmentInfo[] stringToEnchantmentInfos (String value){
+		if (value != null){
+			if (value.contains(",")){
+				String[] array = value.split(",");
+				ModEnchantmentInfo[] modEnchantmentInfos = new ModEnchantmentInfo[array.length];
+				int count = 0;
+				for (String i : array) {
+					modEnchantmentInfos[count] = new ModEnchantmentInfo(i.trim());
+					count++;
+				}
+				return modEnchantmentInfos;	
+			}else{
+				ModEnchantmentInfo[] modEnchantmentInfos = new ModEnchantmentInfo[1];
+				modEnchantmentInfos[0] = new ModEnchantmentInfo(value);
+				return modEnchantmentInfos;
+			}	
+		}else{
+			return new ModEnchantmentInfo[0];
+		}
 	}
 }

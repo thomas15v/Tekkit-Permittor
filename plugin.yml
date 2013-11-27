@@ -11,4 +11,5 @@ commands:
        /tep choicedefault [B|TL|TM]
        /tep checkforcedchunks - Check for chunk loaders in loaded chunks
        /tep unloadforcedchunks - unload the forcedchunks by replacing the chunkloader by a chest containing the chunkloader"
+       /tep tpclosestchunkloader - TP to the closest chunk loader in your area
     
