@@ -32,7 +32,7 @@ public class Enchantmentbanner implements Listener {
 							player.getItemInHand().addEnchantment(Enchantment.getById(enchant.GetTypeId()), enchant.GetMaxLevel());
 							player.sendMessage(Color.red + "Lowered an limited enchantment on your tool to level " + enchant.GetMaxLevel());
 						}
-					}
+					} 
 					else{
 						player.getItemInHand().removeEnchantment(Enchantment.getById(enchant.GetTypeId()));
 						player.sendMessage(Color.red + "We have removed an harmfull enchantment from your tool");
@@ -41,4 +41,3 @@ public class Enchantmentbanner implements Listener {
 			}
 		}	
 	}
-

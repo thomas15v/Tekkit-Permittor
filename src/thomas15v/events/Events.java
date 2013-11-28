@@ -35,7 +35,7 @@ public class Events implements Listener {
 	public void BlockPlaceEvent(BlockPlaceEvent event){		
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
 			EventConfig mgr = Manager.geteventconfig();
-			Block block = event.getBlock();
+			Block block = event.getBlock(); 
 					
 			if (Functions.InBlockInfoArray(mgr.noplaceblock, block)){
 				TekkitPermittor.GetLogger().info("Job abusing exploit blocked");
