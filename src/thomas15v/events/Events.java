@@ -36,8 +36,7 @@ public class Events implements Listener {
 		if (event.getPlayer().getName().startsWith("[") || event.getPlayer().getName().endsWith("]")){
 			EventConfig mgr = Manager.geteventconfig();
 			Block block = event.getBlock();
-			Bukkit.getLogger().info("Blockplace event from " + event.getPlayer().getName());
-			
+					
 			if (Functions.InBlockInfoArray(mgr.noplaceblock, block)){
 				TekkitPermittor.GetLogger().info("Job abusing exploit blocked");
 				event.setCancelled(true);

@@ -40,8 +40,5 @@ public class Enchantmentbanner implements Listener {
 				}
 			}
 		}	
-	
-	
-		void attack(entity)
 	}
 
