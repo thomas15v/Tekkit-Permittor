@@ -4,8 +4,8 @@ Add_forgoten_recipe: false
 #Place here id's for chunkloading blocks
 Chunksloaders: 153,2048,4077,4090
 Banned:
-  #Enchantment id : max level allowed (will ban the complete enchantment if no max level is included)
-  Enchantments: 80:2
+  #Enchantment id : max level allowed (will ban the complete enchantment if no max level is included) not finished yet
+  #Enchantments: 80:2
 block-Mod-block-place:
   #enable blocking blocks been placed by mods like computercraft and redpower2?
   enabled: true

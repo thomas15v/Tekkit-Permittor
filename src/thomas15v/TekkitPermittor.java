@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -20,7 +21,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import thomas15v.configuration.Manager;
-import thomas15v.events.Enchantmentbanner;
 import thomas15v.events.Events;
 import thomas15v.events.WarnAdminevents;
 import thomas15v.events.Worldguardevents;
@@ -42,8 +42,8 @@ public class TekkitPermittor extends JavaPlugin {
 		logger = getLogger();
 		loadConfiguration();
 		
-		Enchantmentbanner enchantmentbanner = new Enchantmentbanner();
-		getServer().getPluginManager().registerEvents(enchantmentbanner, this);
+		//Enchantmentbanner enchantmentbanner = new Enchantmentbanner();
+		//getServer().getPluginManager().registerEvents(enchantmentbanner, this);
 	}
 	
 	void forgotenrecipes(){
@@ -160,8 +160,21 @@ public class TekkitPermittor extends JavaPlugin {
 					sender.sendMessage("This Command has to be run as player");
 				}
 				return true;
-			}		
+			}	
+			
+			else if (args[0].equalsIgnoreCase("test") && args.length > 0){
+				if (sender instanceof Player){
+					Player player = (Player) sender; //Lol my first cast in this plugin :)
+					player.getWorld().strikeLightningEffect(player.getLocation());
+					player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 20);
+					player.getWorld().playEffect(player.getLocation(), Effect.SMOKE,20);
+					player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL,20);			
+				}
+				
+			}
 		}
+		
+	
 		
 		return false;
 	}

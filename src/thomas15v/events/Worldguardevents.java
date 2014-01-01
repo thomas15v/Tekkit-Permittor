@@ -32,51 +32,55 @@ public class Worldguardevents implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	void PlayerInteractEvent(PlayerInteractEvent event){
-		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
+		Player player = event.getPlayer();
 		
+		WorldGuardConfig mgr = Manager.getworldguardConfig();
+		
+		if (event.hasItem()){
+			ApplicableRegionSet region = worldguard.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation());
 			
-			Player player = event.getPlayer();
-			Block block = event.getClickedBlock();
-			ApplicableRegionSet region =  worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
-			
-			WorldGuardConfig mgr = Manager.getworldguardConfig();
-			
-			if (event.hasItem()){
-				ItemStack iteminhand = event.getItem();
-				Boolean inarea =  region.iterator().hasNext();
-				
-				
-				
-				if (Functions.InBlockInfoArray(mgr.wrenches, iteminhand) && !worldguard.canBuild(player,block)){
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a wrench in this area");
-					event.setCancelled(true);
-					return;
-				}					
-				
-				if (Functions.InBlockInfoArray(mgr.tools, iteminhand) && !worldguard.canBuild(player,block)){
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a tool in this area");
-					event.setCancelled(true);
-					return;
-				}
-				
-				if (Functions.InBlockInfoArray(mgr.alwaysblockedtools, iteminhand) && inarea){
-					player.sendMessage(ChatColor.DARK_RED + "The usage of this tool is disabled globally in every region");
-					event.setCancelled(true);
-					return;
-				}
-			}
-			if (Functions.InBlockInfoArray(mgr.Containerblocks, block ) && !region.allows(DefaultFlag.CHEST_ACCESS,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
-				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
+			ItemStack iteminhand = event.getItem();
+			Boolean inarea = region.iterator().hasNext();
+
+			if (Functions.InBlockInfoArray(mgr.tools, iteminhand) && !worldguard.canBuild(player, player.getLocation())){
+				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a tool in this area");
 				event.setCancelled(true);
 				return;
 			}
-			if (Functions.InBlockInfoArray(mgr.UseBlocks, block) && !region.allows(DefaultFlag.USE ,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
-				player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
+			
+			if (Functions.InBlockInfoArray(mgr.alwaysblockedtools, iteminhand) && inarea){
+				player.sendMessage(ChatColor.DARK_RED + "The usage of this tool is disabled globally in every region");
 				event.setCancelled(true);
 				return;
-			}			
-			
+			}
+		
 		}
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK ){
+			Block block = event.getClickedBlock();
+			ApplicableRegionSet region = worldguard.getRegionManager(block.getWorld()).getApplicableRegions(block.getLocation());
+						
+				if (event.hasItem() ){
+					ItemStack iteminhand = event.getItem();
+					if (Functions.InBlockInfoArray(mgr.wrenches, iteminhand) && !worldguard.canBuild(player,block)){
+						player.sendMessage(ChatColor.DARK_RED + "You don't have permission to use a wrench in this area");
+						event.setCancelled(true);
+						return;
+					}	
+				}
+				if (Functions.InBlockInfoArray(mgr.Containerblocks, block ) && !region.allows(DefaultFlag.CHEST_ACCESS,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
+					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
+					event.setCancelled(true);
+					return;
+				}
+				if (Functions.InBlockInfoArray(mgr.UseBlocks, block) && !region.allows(DefaultFlag.USE ,worldguard.wrapPlayer(player)) && !worldguard.canBuild(player, block)){
+					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to open that in this area");
+					event.setCancelled(true);
+					return;
+				}			
+			}
+			
+			
+		
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void BlockPlaceEvent(BlockPlaceEvent event){
