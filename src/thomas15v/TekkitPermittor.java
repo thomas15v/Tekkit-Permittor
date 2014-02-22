@@ -2,6 +2,7 @@ package thomas15v;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 import thomas15v.configuration.Manager;
 import thomas15v.events.Events;
@@ -41,9 +43,19 @@ public class TekkitPermittor extends JavaPlugin {
 	public void onEnable() {
 		logger = getLogger();
 		loadConfiguration();
+		loadmetrics();
 		
 		//Enchantmentbanner enchantmentbanner = new Enchantmentbanner();
 		//getServer().getPluginManager().registerEvents(enchantmentbanner, this);
+	}
+	
+	void loadmetrics(){
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}		
 	}
 	
 	void forgotenrecipes(){
